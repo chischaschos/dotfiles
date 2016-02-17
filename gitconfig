@@ -1,0 +1,55 @@
+[user]
+	name = emmanuel delgado
+	email = larin.s931@gmail.com
+[github]
+  user = chischaschos
+[color]
+  interactive = auto
+  diff = auto
+  branch = auto
+  ui = true
+[alias]
+  slap = blame -w
+  co = checkout
+  ci = commit
+  st = status
+  br = branch
+  top = shortlog -s -n
+  files = show --pretty=\"format:\" --name-only
+  today = log --pretty=format:\"* %s%d [%h]\" --no-merges --date=short --author='emmanuel delgado' --since=\"$DATE 00:00:00\" --until=\"$DATE 24:00:00\"
+  mine = log -p --date=short --author='emmanuel delgado'
+  hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --date=short
+  type = cat-file -t
+  switch = !legit switch \"$@\"
+  branches = !legit branches
+  sprout = !legit sprout \"$@\"
+  unpublish = !legit unpublish \"$@\"
+  harvest = !legit harvest \"$@\"
+  sync = !legit sync \"$@\"
+  publish = !legit publish \"$@\"
+  graft = !legit graft \"$@\"
+
+  # Fancy logging.
+  #   h = head
+  #   hp = head with patch
+  #   r = recent commits, only current branch
+  #   ra = recent commits, all reachable refs
+  #   l = all commits, only current branch
+  #   la = all commits, all reachable refs
+  head = !git l -1
+  h = !git head
+  hp = "!. ~/.githelpers && show_git_head"
+  r = !git l -30
+  ra = !git r --all
+  l = "!. ~/.githelpers && pretty_git_log"
+  la = !git l --all
+  url =! bash -c 'git config --get remote.origin.url | sed -E "s/.+:\\(.+\\)\\.git$/https:\\\\/\\\\/github\\\\.com\\\\/\\\\1/g"'
+[core]
+	excludesfile = /Users/emmanueldelgado/.gitignore
+	editor = /usr/local/bin/vim
+[heroku]
+  account = personal
+[merge]
+	tool = opendiff
+[push]
+	default = simple
