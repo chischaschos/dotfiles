@@ -61,6 +61,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'int3/vim-extradite'
 
 " Bars, panels, and files
+Plug 'scrooloose/nerdtree'
 Plug 'bling/vim-airline'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'majutsushi/tagbar'
@@ -186,7 +187,6 @@ nnoremap <leader>mo :set mouse=<cr>
 " Default to mouse mode on
 set mouse=a
 " }}}
-
 
 " Colors and Fonts {{{
 
@@ -457,6 +457,29 @@ nmap <silent> <Leader>rv <Plug>SetTmuxVars
 
 " }}}
 
+" NERDTree {{{
+
+" Close nerdtree after a file is selected
+let NERDTreeQuitOnOpen = 1
+
+function! IsNERDTreeOpen()
+  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+endfunction
+
+function! ToggleFindNerd()
+  if IsNERDTreeOpen()
+    exec ':NERDTreeToggle'
+  else
+    exec ':NERDTreeFind'
+  endif
+endfunction
+
+" If nerd tree is closed, find current file, if open, close it
+nmap <silent> <leader>f <ESC>:call ToggleFindNerd()<CR>
+nmap <silent> <leader>F <ESC>:NERDTreeToggle<CR>
+
+" }}}
+
 " Alignment {{{
 
 " Stop Align plugin from forcing its mappings on us
@@ -559,3 +582,6 @@ autocmd InsertLeave * :set relativenumber
 " remove spaces before exiting
 autocmd BufWritePre * :%s/\s\+$//e
 " }}}
+"
+" set macligatures
+" set guifont=Fira\ Code:h12

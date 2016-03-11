@@ -51,7 +51,7 @@ unsetopt correct
 export TERM=xterm-256color
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-export EDITOR=/usr/local/bin/nvim
+export EDITOR=/usr/local/bin/vim
 export PATH="/usr/local/bin:$PATH"
 export PATH="/usr/local/share/npm/bin:$PATH"
 export PATH=./node_modules/.bin:./bin:$PATH
