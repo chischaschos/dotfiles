@@ -49,9 +49,12 @@ source $ZSH/oh-my-zsh.sh
 unsetopt correct
 
 export TERM=xterm-256color
+
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
+
 export EDITOR=/usr/local/bin/vim
+
 export PATH="/usr/local/bin:$PATH"
 export PATH="/usr/local/share/npm/bin:$PATH"
 export PATH=./node_modules/.bin:./bin:$PATH
@@ -59,8 +62,12 @@ export PATH="/usr/local/sbin:$PATH"
 
 export NODE_PATH=/usr/local/lib/node:/usr/local/lib/node_modules
 export NODE_ENV=development
+
 export RBENV_ROOT=/usr/local/var/rbenv
+
 export CDPATH=.:~:~/Projects
+
+export GOPATH=~/Projects/GOPATH
 
 source ~/.bash_aliases
 [[ -s /Users/emmanueldelgado/.nvm/nvm.sh ]] && . /Users/emmanueldelgado/.nvm/nvm.sh # This loads NVM

@@ -67,15 +67,12 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'majutsushi/tagbar'
 
 " Text manipulation
-Plug 'vim-scripts/Align'
+Plug 'junegunn/vim-easy-align'
 Plug 'simnalamburt/vim-mundo'
 Plug 'tpope/vim-commentary'
 Plug 'godlygeek/tabular'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'easymotion/vim-easymotion'
-
-" Allow pane movement to jump out of vim into tmux
-Plug 'christoomey/vim-tmux-navigator'
 
 " Colorscheme
 Plug 'vim-scripts/wombat256.vim'
@@ -106,6 +103,9 @@ Plug 'jgdavey/vim-turbux'
 
 " Open a 20% panel
 Plug 'benmills/vimux'
+
+" Allow pane movement to jump out of vim into tmux
+Plug 'christoomey/vim-tmux-navigator'
 
 Plug 'SirVer/ultisnips'
 
@@ -192,6 +192,8 @@ set mouse=a
 
 try
   colorscheme wombat256mod
+  " background=light
+  " colorscheme solarized
 catch
 endtry
 
@@ -482,16 +484,12 @@ nmap <silent> <leader>F <ESC>:NERDTreeToggle<CR>
 
 " Alignment {{{
 
-" Stop Align plugin from forcing its mappings on us
-let g:loaded_AlignMapsPlugin=1
-" Align on equal signs
-map <Leader>a= :Align =<CR>
-" Align on commas
-map <Leader>a, :Align ,<CR>
-" Align on pipes
-map <Leader>a<bar> :Align <bar><CR>
-" Prompt for align character
-map <leader>ap :Align
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+" }}}
 
 " Tags {{{
 
