@@ -1,2 +1,2 @@
 ---
-BUNDLE_BUILD__PUMA: "--with-opt-dir=/usr/local/opt/openssl"
+BUNDLE_BUILD__PUMA: --with-opt-dir=/usr/local/opt/openssl

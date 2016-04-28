@@ -55,22 +55,24 @@ export LANG=en_US.UTF-8
 
 export EDITOR=/usr/local/bin/vim
 
-export PATH="/usr/local/bin:$PATH"
-export PATH="/usr/local/share/npm/bin:$PATH"
-export PATH=./node_modules/.bin:./bin:$PATH
-export PATH="/usr/local/sbin:$PATH"
+PATH="$HOME/.rbenv/bin:/usr/local/bin:$PATH"
+export -U PATH
+
+export NVM_DIR="/Users/e.delgado/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 export NODE_PATH=/usr/local/lib/node:/usr/local/lib/node_modules
 export NODE_ENV=development
-
-export RBENV_ROOT=/usr/local/var/rbenv
 
 export CDPATH=.:~:~/Projects
 
 export GOPATH=~/Projects/GOPATH
 
 source ~/.bash_aliases
-[[ -s /Users/emmanueldelgado/.nvm/nvm.sh ]] && . /Users/emmanueldelgado/.nvm/nvm.sh # This loads NVM
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+# load rbenv if available
+if command -v rbenv >/dev/null; then
+  eval "$(rbenv init - --no-rehash)"
+fi
 
 test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
