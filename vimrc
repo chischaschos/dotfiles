@@ -554,7 +554,7 @@ if executable('ag')
 endif
 
 " bind K to grep word under cursor
-nnoremap K :Ag "\b<C-R><C-W>\b"<CR>:cw<CR>
+nnoremap K :Ack "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " relative numbering
 set relativenumber
