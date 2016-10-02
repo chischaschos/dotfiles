@@ -55,6 +55,7 @@ Plug 'neomake/neomake'
 Plug 'moll/vim-bbye'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'vim-scripts/gitignore'
+Plug 'mileszs/ack.vim'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -95,7 +96,6 @@ Plug 'isRuslan/vim-es6'
 Plug 'tpope/vim-endwise'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-surround'
-Plug 'rking/ag.vim'
 
 " tmux related
 " Run tests from vim into a tmux panel or window
@@ -500,18 +500,8 @@ nnoremap <silent> <C-\> :cs find c <C-R>=expand("<cword>")<CR><CR>
 " Git {{{
 
 let g:extradite_width = 60
-" Hide messy Ggrep output and copen automatically
-function! NonintrusiveGitGrep(term)
-  execute "copen"
-  " Map 't' to open selected item in new tab
-  execute "nnoremap <silent> <buffer> t <C-W><CR><C-W>T"
-  execute "silent! Ggrep " . a:term
-  execute "redraw!"
-endfunction
 
-command! -nargs=1 GGrep call NonintrusiveGitGrep(<q-args>)
 nmap <leader>gs :Gstatus<CR>
-nmap <leader>gg :copen<CR>:GGrep
 nmap <leader>gl :Extradite!<CR>
 nmap <leader>gd :Gdiff<CR>
 nmap <leader>gb :Gblame<CR>
@@ -552,14 +542,7 @@ vnoremap <silent> <leader>h> :call Pointful()<CR>
 
 " The Silver Searcher
 if executable('ag')
-  " Use ag over grep
-  set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
+  let g:ackprg = 'ag --vimgrep'
 endif
 
 " bind K to grep word under cursor
