@@ -44,7 +44,8 @@ alias ctl='> ./log/test.log'
 alias cdl='> ./log/development.log'
 
 # bare vim stuff
-alias myvim='vim -u ~/.vimrc.mine'
+alias v='nvim'
+alias vim='nvim'
 
 # billfloat
 alias qa-getcash-log="ssh -t hrbbqa 'tail -f /var/log/rails/getcash/qa.log'"
