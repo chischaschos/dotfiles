@@ -56,10 +56,14 @@ Plug 'moll/vim-bbye'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'vim-scripts/gitignore'
 Plug 'mileszs/ack.vim'
+Plug 'tpope/vim-endwise'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'tpope/vim-surround'
 
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'int3/vim-extradite'
+Plug 'airblade/vim-gitgutter'
 
 " Bars, panels, and files
 Plug 'scrooloose/nerdtree'
@@ -95,10 +99,6 @@ Plug 'isRuslan/vim-es6'
 Plug 'vim-erlang/vim-erlang-runtime'
 Plug 'edkolev/erlang-motions.vim'
 Plug 'ekalinin/Dockerfile.vim'
-
-Plug 'tpope/vim-endwise'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'tpope/vim-surround'
 
 " tmux related
 " Run tests from vim into a tmux panel or window
