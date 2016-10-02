@@ -40,7 +40,7 @@ DISABLE_CORRECTION="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git osx ruby)
+plugins=(git osx ruby rbenv autoenv docker vim nvm)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -58,21 +58,6 @@ export EDITOR=/usr/local/bin/vim
 PATH="$HOME/.rbenv/bin:/usr/local/bin:$PATH"
 export -U PATH
 
-export NVM_DIR="/Users/e.delgado/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-
-export NODE_PATH=/usr/local/lib/node:/usr/local/lib/node_modules
-export NODE_ENV=development
-
 export CDPATH=.:~:~/Projects
 
-export GOPATH=~/Projects/GOPATH
-
 source ~/.bash_aliases
-
-# load rbenv if available
-if command -v rbenv >/dev/null; then
-  eval "$(rbenv init - --no-rehash)"
-fi
-
-test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
