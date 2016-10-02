@@ -580,6 +580,3 @@ autocmd InsertLeave * :set relativenumber
 " remove spaces before exiting
 autocmd BufWritePre * :%s/\s\+$//e
 " }}}
-"
-" set macligatures
-" set guifont=Fira\ Code:h12
