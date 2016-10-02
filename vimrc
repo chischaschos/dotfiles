@@ -51,7 +51,7 @@ call plug#begin('~/.vim/bundle')
 Plug 'jgdavey/tslime.vim'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'ervandew/supertab'
-Plug 'scrooloose/syntastic'
+Plug 'neomake/neomake'
 Plug 'moll/vim-bbye'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'vim-scripts/gitignore'
@@ -196,11 +196,6 @@ try
   " colorscheme solarized
 catch
 endtry
-
-" Adjust signscolumn and syntastic to match wombat
-hi! link SignColumn LineNr
-hi! link SyntasticErrorSign ErrorMsg
-hi! link SyntasticWarningSign WarningMsg
 
 " Use pleasant but very visible search hilighting
 hi Search ctermfg=white ctermbg=173 cterm=none guifg=#ffffff guibg=#e5786d gui=none
