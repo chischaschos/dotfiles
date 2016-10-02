@@ -304,12 +304,17 @@ let g:haskell_conceal_enumerations = 1
 let hscoptions="𝐒𝐓𝐄𝐌xRtB𝔻w"
 
 " Copy and paste to os clipboard
+" http://vim.wikia.com/wiki/Accessing_the_system_clipboard
+" http://www.economyofeffort.com/2013/07/29/reattach-to-user-namespace-the-fix-for-your-tmux-in-os-x-woes/
+" https://robots.thoughtbot.com/how-to-copy-and-paste-with-tmux-on-mac-os-x
 nmap <leader>y "*y
 vmap <leader>y "*y
 nmap <leader>d "*d
 vmap <leader>d "*d
 nmap <leader>p "*p
 vmap <leader>p "*p
+set clipboard=unnamed
+
 
 " }}}
 
