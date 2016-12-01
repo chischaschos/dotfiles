@@ -16,7 +16,7 @@ alias fs='be foreman start'
 
 #####
 # Git http://library.edgecase.com/git_immersion/lab_11.html
-alias gst='git status '
+alias gst='git status --short'
 alias gaa='git add '
 alias gb='git branch '
 alias gci='git commit'
