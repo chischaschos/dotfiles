@@ -46,7 +46,7 @@
   url =! bash -c 'git config --get remote.origin.url | sed -E "s/.+:\\(.+\\)\\.git$/https:\\\\/\\\\/github\\\\.com\\\\/\\\\1/g"'
 [core]
 	excludesfile = /Users/emmanueldelgado/.gitignore
-	editor = /usr/local/bin/vim
+	editor = /usr/local/bin/nvim
 [heroku]
   account = personal
 [merge]
