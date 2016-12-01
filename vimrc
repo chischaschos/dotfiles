@@ -68,7 +68,7 @@ Plug 'airblade/vim-gitgutter'
 " Bars, panels, and files
 Plug 'scrooloose/nerdtree'
 Plug 'bling/vim-airline'
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'majutsushi/tagbar'
 
 " Text manipulation
@@ -193,12 +193,8 @@ set mouse=a
 
 " Colors and Fonts {{{
 
-try
-  colorscheme wombat256mod
-  " background=light
-  " colorscheme solarized
-catch
-endtry
+set background=light
+colorscheme solarized
 
 " Use pleasant but very visible search hilighting
 hi Search ctermfg=white ctermbg=173 cterm=none guifg=#ffffff guibg=#e5786d gui=none
@@ -565,4 +561,13 @@ autocmd InsertLeave * :set relativenumber
 
 " remove spaces before exiting
 autocmd BufWritePre * :%s/\s\+$//e
+" }}}
+
+" Fuzzy Finder FZF {{{
+let g:fzf_action = {
+      \ 'ctrl-s': 'split',
+      \ 'ctrl-v': 'vsplit',
+      \ 'ctrl-t': 'tabe'
+      \ }
+nnoremap <c-p> :FZF<cr>
 " }}}
