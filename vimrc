@@ -55,7 +55,7 @@ Plug 'neomake/neomake'
 Plug 'moll/vim-bbye'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'vim-scripts/gitignore'
-Plug 'mileszs/ack.vim'
+Plug 'mhinz/vim-grepper'
 Plug 'tpope/vim-endwise'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-surround'
@@ -66,7 +66,6 @@ Plug 'int3/vim-extradite'
 Plug 'airblade/vim-gitgutter'
 
 " Bars, panels, and files
-Plug 'scrooloose/nerdtree'
 Plug 'bling/vim-airline'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'majutsushi/tagbar'
@@ -199,9 +198,6 @@ colorscheme solarized
 " Use pleasant but very visible search hilighting
 hi Search ctermfg=white ctermbg=173 cterm=none guifg=#ffffff guibg=#e5786d gui=none
 hi! link Visual Search
-
-" Match wombat colors in nerd tree
-hi Directory guifg=#8ac6f2
 
 " Searing red very visible cursor
 hi Cursor guibg=red
@@ -458,29 +454,6 @@ nmap <silent> <Leader>rv <Plug>SetTmuxVars
 
 " }}}
 
-" NERDTree {{{
-
-" Close nerdtree after a file is selected
-let NERDTreeQuitOnOpen = 1
-
-function! IsNERDTreeOpen()
-  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
-endfunction
-
-function! ToggleFindNerd()
-  if IsNERDTreeOpen()
-    exec ':NERDTreeToggle'
-  else
-    exec ':NERDTreeFind'
-  endif
-endfunction
-
-" If nerd tree is closed, find current file, if open, close it
-nmap <silent> <leader>f <ESC>:call ToggleFindNerd()<CR>
-nmap <silent> <leader>F <ESC>:NERDTreeToggle<CR>
-
-" }}}
-
 " Alignment {{{
 
 " Start interactive EasyAlign in visual mode (e.g. vipga)
@@ -544,13 +517,9 @@ vnoremap <silent> <leader>h> :call Pointful()<CR>
 
 " Customization {{{
 
-" The Silver Searcher
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
-endif
-
 " bind K to grep word under cursor
-nnoremap K :Ack "\b<C-R><C-W>\b"<CR>:cw<CR>
+nnoremap K :GrepperAg "\b<C-R><C-W>\b"<CR>:cw<CR>
+nnoremap <leader>G :Grepper -tool ag<cr>
 
 " relative numbering
 set relativenumber
@@ -570,4 +539,10 @@ let g:fzf_action = {
       \ 'ctrl-t': 'tabe'
       \ }
 nnoremap <c-p> :FZF<cr>
+" }}}
+
+" ESLint {{{
+autocmd! BufWritePost * Neomake
+let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_ruby_enabled_makers = ['rubocop']
 " }}}
