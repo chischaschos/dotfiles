@@ -52,7 +52,6 @@ Plug 'jgdavey/tslime.vim'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'ervandew/supertab'
 Plug 'neomake/neomake'
-Plug 'moll/vim-bbye'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'vim-scripts/gitignore'
 Plug 'mhinz/vim-grepper'
@@ -62,11 +61,10 @@ Plug 'tpope/vim-surround'
 
 " Git
 Plug 'tpope/vim-fugitive'
-Plug 'int3/vim-extradite'
+Plug 'junegunn/gv.vim'
 Plug 'airblade/vim-gitgutter'
 
 " Bars, panels, and files
-Plug 'bling/vim-airline'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'majutsushi/tagbar'
 
@@ -77,6 +75,8 @@ Plug 'tpope/vim-commentary'
 Plug 'godlygeek/tabular'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'easymotion/vim-easymotion'
+Plug 'kana/vim-textobj-user'
+Plug 'rhysd/vim-textobj-ruby'
 
 " Colorscheme
 Plug 'vim-scripts/wombat256.vim'
@@ -98,6 +98,11 @@ Plug 'isRuslan/vim-es6'
 Plug 'vim-erlang/vim-erlang-runtime'
 Plug 'edkolev/erlang-motions.vim'
 Plug 'ekalinin/Dockerfile.vim'
+
+" writing
+Plug 'rhysd/vim-grammarous'
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
 
 " tmux related
 " Run tests from vim into a tmux panel or window
@@ -230,13 +235,6 @@ set ffs=unix,dos,mac
 " Use large font by default in MacVim
 set gfn=Monaco:h19
 
-" Use powerline fonts for airline
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-
-let g:airline_powerline_fonts = 1
-let g:airline_symbols.space = "\ua0"
 " }}}
 
 " Files, backups and undo {{{
@@ -306,8 +304,6 @@ vmap <leader>d "*d
 nmap <leader>p "*p
 vmap <leader>p "*p
 set clipboard=unnamed
-
-
 " }}}
 
 " Visual mode related {{{
@@ -408,13 +404,6 @@ augroup END
 
 " }}}
 
-" Spell checking {{{
-
-" Pressing ,ss will toggle and untoggle spell checking
-map <leader>ss :setlocal spell!<cr>
-
-" }}}
-
 " Helper functions {{{
 
 function! CmdLine(str)
@@ -476,10 +465,7 @@ nnoremap <silent> <C-\> :cs find c <C-R>=expand("<cword>")<CR><CR>
 
 " Git {{{
 
-let g:extradite_width = 60
-
 nmap <leader>gs :Gstatus<CR>
-nmap <leader>gl :Extradite!<CR>
 nmap <leader>gd :Gdiff<CR>
 nmap <leader>gb :Gblame<CR>
 
@@ -515,20 +501,22 @@ vnoremap <silent> <leader>h> :call Pointful()<CR>
 
 " }}}
 
-" Customization {{{
+" Grepper {{{
 
 " bind K to grep word under cursor
 nnoremap K :GrepperAg "\b<C-R><C-W>\b"<CR>:cw<CR>
 nnoremap <leader>G :Grepper -tool ag<cr>
+" }}}
 
-" relative numbering
+" Relative numbering {{{
 set relativenumber
 autocmd FocusLost * :set number
 autocmd FocusGained * :set relativenumber
 autocmd InsertEnter * :set number
 autocmd InsertLeave * :set relativenumber
+" }}}
 
-" remove spaces before exiting
+" Remove spaces before exiting {{{
 autocmd BufWritePre * :%s/\s\+$//e
 " }}}
 
@@ -545,4 +533,18 @@ nnoremap <c-p> :FZF<cr>
 autocmd! BufWritePost * Neomake
 let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_ruby_enabled_makers = ['rubocop']
+" }}}
+
+" vim-indent-guides {{{
+let g:indent_guides_enable_on_vim_startup = 1
+" }}}
+
+" Writing {{{
+let g:limelight_conceal_ctermfg = 'gray'
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!
+
+" Pressing ,ss will toggle and untoggle spell checking
+map <leader>ss :setlocal spell!<cr>
+
 " }}}
