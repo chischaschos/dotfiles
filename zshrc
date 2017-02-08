@@ -10,7 +10,7 @@ ZSH_THEME="my-robbyrussell"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git osx ruby rbenv autoenv docker vim nvm)
+plugins=(git osx ruby autoenv docker vim nvm)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -26,12 +26,16 @@ setopt hist_ignore_all_dups inc_append_history hist_find_no_dups
 hISTSIZE=20000
 SAVEHIST=10000
 
-export EDITOR=/usr/local/bin/vim
+export EDITOR=/usr/local/bin/nvim
 
-PATH="$HOME/.rbenv/bin:/usr/local/bin:$PATH"
+
+PATH="$HOME/usr/local/bin:$PATH"
 export -U PATH
 
 export CDPATH=.:~:~/Projects
 
 source ~/.aliases
 
+eval "$(rbenv init -)"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
