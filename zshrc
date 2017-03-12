@@ -23,13 +23,13 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 setopt hist_ignore_all_dups inc_append_history hist_find_no_dups
-hISTSIZE=20000
+HISTSIZE=20000
 SAVEHIST=10000
 
 export EDITOR=/usr/local/bin/nvim
+export GOPATH=~/Projects/GOPATH17
 
-
-PATH="$HOME/usr/local/bin:$PATH"
+PATH="$HOME/usr/local/bin:$HOME/Projects/anaconda3/bin:$GOPATH/bin:$PATH"
 export -U PATH
 
 export CDPATH=.:~:~/Projects
