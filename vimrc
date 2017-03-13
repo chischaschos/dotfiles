@@ -78,9 +78,8 @@ Plug 'easymotion/vim-easymotion'
 Plug 'kana/vim-textobj-user'
 Plug 'rhysd/vim-textobj-ruby'
 
-" Colorscheme
-Plug 'vim-scripts/wombat256.vim'
-Plug 'altercation/vim-colors-solarized'
+" nolorscheme
+Plug 'chriskempson/base16-vim'
 
 " Other langs support
 Plug 'fatih/vim-go'
@@ -175,12 +174,12 @@ set mat=2
 set noerrorbells
 set vb t_vb=
 
-if &term =~ '256color'
+" if &term =~ '256color'
   " disable Background Color Erase (BCE) so that color schemes
   " render properly when inside 256-color tmux and GNU screen.
   " see also http://snk.tuxfamily.org/log/vim-256color-bce.html
-  set t_ut=
-endif
+  " set t_ut=
+" endif
 
 " Force redraw
 map <silent> <leader>r :redraw!<CR>
@@ -196,9 +195,13 @@ set mouse=a
 " }}}
 
 " Colors and Fonts {{{
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
 
-set background=light
-colorscheme solarized
+let base16colorspace=256  " Access colors present in 256 colorspace
+colorscheme base16-default-dark
 
 " Use pleasant but very visible search hilighting
 hi Search ctermfg=white ctermbg=173 cterm=none guifg=#ffffff guibg=#e5786d gui=none
