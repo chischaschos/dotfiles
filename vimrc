@@ -97,6 +97,9 @@ Plug 'isRuslan/vim-es6'
 Plug 'vim-erlang/vim-erlang-runtime'
 Plug 'edkolev/erlang-motions.vim'
 Plug 'ekalinin/Dockerfile.vim'
+Plug 'elmcast/elm-vim'
+Plug 'moll/vim-node'
+Plug 'vim-scripts/dbext.vim'
 
 " writing
 Plug 'rhysd/vim-grammarous'
@@ -113,7 +116,7 @@ Plug 'benmills/vimux'
 " Allow pane movement to jump out of vim into tmux
 Plug 'christoomey/vim-tmux-navigator'
 
-Plug 'SirVer/ultisnips'
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
 call plug#end()
 
@@ -550,4 +553,19 @@ autocmd! User GoyoLeave Limelight!
 " Pressing ,ss will toggle and untoggle spell checking
 map <leader>ss :setlocal spell!<cr>
 
+" }}}
+
+" Prettier {{{
+autocmd FileType javascript setlocal formatprg=prettier\ --stdin
+" }}}
+
+" Elm {{{
+let g:elm_format_autosave = 1
+" }}}
+
+" UltiSnips {{{
+let g:UltiSnipsUsePythonVersion = 2
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " }}}
