@@ -1,6 +1,6 @@
 [user]
-	name = emmanuel delgado
-	email = larin.s931@gmail.com
+  name = emmanuel delgado
+  email = larin.s931@gmail.com
 [github]
   user = chischaschos
 [color]
@@ -45,11 +45,14 @@
   la = !git l --all
   url =! bash -c 'git config --get remote.origin.url | sed -E "s/.+:\\(.+\\)\\.git$/https:\\\\/\\\\/github\\\\.com\\\\/\\\\1/g"'
 [core]
-	excludesfile = /Users/emmanueldelgado/.gitignore
-	editor = /usr/local/bin/nvim
+  excludesfile = /Users/emmanueldelgado/.gitignore
+  editor = /usr/local/bin/nvim
 [heroku]
   account = personal
 [merge]
-	tool = opendiff
+	tool = vimdiff3-cmd
+	conflictstyle = diff3
 [push]
-	default = simple
+  default = simple
+[mergetool "vimdiff3-cmd"]
+  cmd = /usr/local/bin/nvim -f -d \"$LOCAL\" \"$MERGED\" \"$REMOTE\"
