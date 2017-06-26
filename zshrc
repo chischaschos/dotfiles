@@ -29,7 +29,7 @@ SAVEHIST=10000
 export EDITOR=/usr/local/bin/nvim
 export GOPATH=~/Projects/GOPATH17
 
-PATH="$HOME/usr/local/bin:$HOME/Projects/anaconda3/bin:$GOPATH/bin:$PATH"
+PATH="$HOME/usr/local/bin:$GOPATH/bin:$PATH"
 export -U PATH
 
 export CDPATH=.:~:~/Projects
@@ -42,3 +42,13 @@ eval "$(rbenv init -)"
 
 BASE16_SHELL=$HOME/.config/base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+
+source /usr/local/opt/autoenv/activate.sh
+export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
+export PATH="/usr/local/opt/qt5/bin:$PATH"
+
+# added by travis gem
+[ -f /Users/ed/.travis/travis.sh ] && source /Users/ed/.travis/travis.sh
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
