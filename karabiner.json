@@ -7,6 +7,9 @@
     "profiles": [
         {
             "complex_modifications": {
+                "parameters": {
+                    "basic.to_if_alone_timeout_milliseconds": 500
+                },
                 "rules": [
                     {
                         "manipulators": [
@@ -60,7 +63,7 @@
             "selected": true,
             "simple_modifications": {},
             "virtual_hid_keyboard": {
-                "caps_lock_delay_milliseconds": 0,
+                "caps_lock_delay_milliseconds": 100,
                 "keyboard_type": "ansi",
                 "standalone_keys_delay_milliseconds": 250
             }
