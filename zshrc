@@ -29,6 +29,8 @@ SAVEHIST=10000
 export EDITOR=/usr/local/bin/nvim
 export GOPATH=~/Projects/GOPATH17
 
+PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
+PATH="/usr/local/opt/qt5/bin:$PATH"
 PATH="$HOME/usr/local/bin:$GOPATH/bin:$PATH"
 export -U PATH
 
@@ -44,11 +46,11 @@ BASE16_SHELL=$HOME/.config/base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
 source /usr/local/opt/autoenv/activate.sh
-export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
-export PATH="/usr/local/opt/qt5/bin:$PATH"
 
 # added by travis gem
 [ -f /Users/ed/.travis/travis.sh ] && source /Users/ed/.travis/travis.sh
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
