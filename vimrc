@@ -116,8 +116,6 @@ Plug 'benmills/vimux'
 " Allow pane movement to jump out of vim into tmux
 Plug 'christoomey/vim-tmux-navigator'
 
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-
 call plug#end()
 
 " }}}
@@ -561,11 +559,4 @@ autocmd FileType javascript setlocal formatprg=prettier\ --stdin
 
 " Elm {{{
 let g:elm_format_autosave = 1
-" }}}
-
-" UltiSnips {{{
-let g:UltiSnipsUsePythonVersion = 2
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " }}}
