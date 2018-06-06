@@ -1,0 +1,44 @@
+" abbreviations, chars entered, then type other char, then expanded
+abbreviate ccc chischaschos
+
+" maps, chars entered, then expanded
+" maps can be chained, careful, enjoy
+nmap <C-r>rr :source ~/.dotfiles/vanilla-vim<CR> 
+nmap <C-r>ro :edit ~/.dotfiles/vanilla-vim<CR>
+nmap <RIGHT> gt<CR>
+nmap <LEFT> gT<CR>
+
+
+" nnoremap, inoremap, no recursive mappings
+
+
+
+
+
+" name script files c.vim
+" if file is in $VIMRUNTIME then use runtime filename.vim without full path executes that script
+" if you wanna call a function the `call` command is there
+" there is a complex looking `command` to invoke functions
+" mappings can `call/source` functions
+" `autocmd` can setup callbacks to execute functions around in out buffers
+
+
+
+" do :help vim-script-intro
+" types string, list, dictionary, numbers... floats in newer versions
+" integer arithmetic gives integers, you may introduce .1 or some float to force float arithmetic
+" let define without type, afterwards the var is static, only same types can be assigned, unless you unlet it,
+" lets required on all assignments not only on the first one
+" script, window, tab, buffer vars, default to function and next global
+" comparisons case sensitive ==? case insensitive==#
+" concatenates with .
+
+
+" while, for, if all end in endcons
+
+" echo g:a
+" <cword> <cfile>, % (current file), these can be expand
+" - string 
+" - pattern matching
+" - io may be used to ask for test suite and then set the test runne
+

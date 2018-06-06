@@ -57,7 +57,6 @@ Plug 'vim-scripts/gitignore'
 Plug 'mhinz/vim-grepper'
 Plug 'tpope/vim-endwise'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'tpope/vim-surround'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -69,6 +68,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'majutsushi/tagbar'
 
 " Text manipulation
+Plug 'tpope/vim-surround'
 Plug 'junegunn/vim-easy-align'
 Plug 'simnalamburt/vim-mundo'
 Plug 'tpope/vim-commentary'
@@ -83,6 +83,7 @@ Plug 'chriskempson/base16-vim'
 
 " Other langs support
 Plug 'fatih/vim-go'
+Plug 'jodosha/vim-godebug'
 Plug 'vim-ruby/vim-ruby'
 Plug 'chase/vim-ansible-yaml'
 Plug 'pangloss/vim-javascript'
@@ -136,9 +137,10 @@ set number
 
 " Show trailing whitespace
 set list
+
 " But only interesting whitespace
 if &listchars ==# 'eol:$'
-  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+  set listchars=tab:\│\ ,trail:-,extends:>,precedes:<,nbsp:+
 endif
 
 " Height of the command bar
@@ -193,6 +195,12 @@ nnoremap <leader>mo :set mouse=<cr>
 
 " Default to mouse mode on
 set mouse=a
+
+" Remove trailing spaces when writing file
+autocmd BufWritePre * :%s/\s\+$//e
+
+" Map ESC
+imap jk <Esc>
 " }}}
 
 " Colors and Fonts {{{
@@ -392,22 +400,6 @@ set laststatus=2
 
 " }}}
 
-" Editing mappings {{{
-
-" Delete trailing white space on save
-func! DeleteTrailingWS()
-  exe "normal mz"
-  %s/\s\+$//ge
-  exe "normal `z"
-endfunc
-
-augroup whitespace
-  autocmd!
-  autocmd BufWrite *.hs :call DeleteTrailingWS()
-augroup END
-
-" }}}
-
 " Helper functions {{{
 
 function! CmdLine(str)
@@ -465,6 +457,21 @@ map <leader>tt :TagbarToggle<CR>
 set csverb
 
 nnoremap <silent> <C-\> :cs find c <C-R>=expand("<cword>")<CR><CR>
+if executable('ripper-tags')
+  let g:tagbar_type_ruby = {
+      \ 'kinds'      : ['m:modules',
+                      \ 'c:classes',
+                      \ 'C:constants',
+                      \ 'F:singleton methods',
+                      \ 'f:methods',
+                      \ 'a:aliases'],
+      \ 'kind2scope' : { 'c' : 'class',
+                       \ 'm' : 'class' },
+      \ 'scope2kind' : { 'class' : 'c' },
+      \ 'ctagsbin'   : 'ripper-tags',
+      \ 'ctagsargs'  : ['-f', '-']
+      \ }
+endif
 " }}}
 
 " Git {{{
@@ -520,10 +527,6 @@ autocmd InsertEnter * :set number
 autocmd InsertLeave * :set relativenumber
 " }}}
 
-" Remove spaces before exiting {{{
-autocmd BufWritePre * :%s/\s\+$//e
-" }}}
-
 " Fuzzy Finder FZF {{{
 let g:fzf_action = {
       \ 'ctrl-s': 'split',
@@ -533,10 +536,12 @@ let g:fzf_action = {
 nnoremap <c-p> :FZF<cr>
 " }}}
 
-" ESLint {{{
-autocmd! BufWritePost * Neomake
-let g:neomake_javascript_enabled_makers = ['eslint']
-let g:neomake_ruby_enabled_makers = ['rubocop']
+" Neomake {{{
+
+" " When writing a buffer, and on normal mode changes (after 750ms).
+call neomake#configure#automake('nw', 750)
+let b:neomake_ruby_enabled_makers = ['mri', 'rubocop']
+
 " }}}
 
 " vim-indent-guides {{{
@@ -559,4 +564,28 @@ autocmd FileType javascript setlocal formatprg=prettier\ --stdin
 
 " Elm {{{
 let g:elm_format_autosave = 1
+" }}}
+
+" Go {{{
+let g:go_highlight_array_whitespace_error = 1
+let g:go_highlight_chan_whitespace_error = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_space_tab_error = 1
+let g:go_highlight_trailing_whitespace_error = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_arguments = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_generate_tags = 1
+let g:go_highlight_string_spellcheck = 1
+let g:go_highlight_format_strings = 1
+let g:go_highlight_variable_declarations = 1
+let g:go_highlight_variable_assignments = 1
+" }}}
+
+" Turbux {{{
+let g:turbux_command_rspec='bundle exec rspec -fd'
 " }}}
