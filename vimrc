@@ -57,6 +57,7 @@ Plug 'vim-scripts/gitignore'
 Plug 'mhinz/vim-grepper'
 Plug 'tpope/vim-endwise'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'yssl/QFEnter'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -588,4 +589,11 @@ let g:go_highlight_variable_assignments = 1
 
 " Turbux {{{
 let g:turbux_command_rspec='bundle exec rspec -fd'
+" }}}
+
+" QFE {{{
+let g:qfenter_keymap = {}
+let g:qfenter_keymap.vopen = ['<C-v>']
+let g:qfenter_keymap.hopen = ['<C-CR>', '<C-s>', '<C-x>']
+let g:qfenter_keymap.topen = ['<C-t>']
 " }}}
