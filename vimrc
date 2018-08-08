@@ -516,8 +516,8 @@ nnoremap <c-p> :FZF<cr>
 " Neomake {{{
 
 " " When writing a buffer, and on normal mode changes (after 750ms).
-" call neomake#configure#automake('nw', 750)
-" let b:neomake_ruby_enabled_makers = ['mri', 'rubocop']
+call neomake#configure#automake('nw', 750)
+let b:neomake_ruby_enabled_makers = ['mri', 'rubocop']
 
 " }}}
 
@@ -561,8 +561,4 @@ let g:go_highlight_string_spellcheck = 1
 let g:go_highlight_format_strings = 1
 let g:go_highlight_variable_declarations = 1
 let g:go_highlight_variable_assignments = 1
-" }}}
-
-" Turbux {{{
-let g:turbux_command_rspec='bundle exec rspec -fd'
 " }}}
