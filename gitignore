@@ -3,3 +3,7 @@
 *.swo
 .ruby-version
 tags
+node_modules
+.*@neomake*
+.envrc
+.byebug_history

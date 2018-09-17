@@ -60,7 +60,7 @@ Plug 'yssl/QFEnter'
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
-Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
 
 " Bars, panels, and files
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -104,8 +104,9 @@ Plug 'rhysd/vim-grammarous'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 
-" Allow pane movement to jump out of vim into tmux
-Plug 'christoomey/vim-tmux-navigator'
+" tmux related
+Plug 'christoomey/vim-tmux-runner'
+Plug 'christoomey/vim-tmux-navigator' " Allow pane movement to jump out of vim into tmux
 
 call plug#end()
 
@@ -177,17 +178,13 @@ set vb t_vb=
 " Force redraw
 map <silent> <leader>r :redraw!<CR>
 
-" Turn mouse mode on
-nnoremap <leader>ma :set mouse=a<cr>
-
-" Turn mouse mode off
-nnoremap <leader>mo :set mouse=<cr>
-
 " Default to mouse mode on
 set mouse=a
 
 " Remove trailing spaces when writing file
 autocmd BufWritePre * :%s/\s\+$//e
+" nmap <leader>tw :%s/\s\+$//e<CR>:w<CR>
+nmap <leader>w :w<CR>
 
 " Map ESC
 imap jk <Esc>
@@ -340,14 +337,6 @@ nmap <leader>sh :leftabove  vnew<CR>
 nmap <leader>sl :rightbelow vnew<CR>
 nmap <leader>sk :leftabove  new<CR>
 nmap <leader>sj :rightbelow new<CR>
-
-" Manually create key mappings (to avoid rebinding C-\)
-let g:tmux_navigator_no_mappings = 1
-
-nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
-nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
-nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
-nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
 
 " don't close buffers when you aren't displaying them
 set hidden
@@ -562,6 +551,38 @@ let g:go_highlight_string_spellcheck = 1
 let g:go_highlight_format_strings = 1
 let g:go_highlight_variable_declarations = 1
 let g:go_highlight_variable_assignments = 1
+" }}}
+
+" Tmux related plugins {{{
+" Manually create key mappings (to avoid rebinding C-\)
+let g:tmux_navigator_no_mappings = 1
+
+nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
+nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
+nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
+
+nnoremap <leader>v- :VtrOpenRunner { "orientation": "v" }<cr>
+nnoremap <leader>v\ :VtrOpenRunner { "orientation": "h" }<cr>
+nnoremap <leader>vk :VtrKillRunner<cr>
+nnoremap <leader>va :VtrAttachToPane<cr>
+nnoremap <leader>vs :VtrSendCommandToRunner<space>
+
+function! s:SendRspec(bang)
+  let runner = 'bundle exec rspec -fd {file}'
+
+  if a:bang
+    let runner .= ':' . line('.')
+  endif
+
+  write
+  let local_file_path = expand('%')
+  let run_command = substitute(runner, '{file}', local_file_path, 'g')
+  call VtrSendCommand(run_command, 1)
+endfunction
+command! -bang VtrRspecRunner call s:SendRspec(<bang>0)
+nnoremap <leader>vt :VtrRspecRunner<cr>
+nnoremap <leader>vT :VtrRspecRunner!<cr>
 " }}}
 
 " QFE {{{
