@@ -48,8 +48,6 @@ set nocompatible
 call plug#begin('~/.vim/bundle')
 
 " Support bundles
-Plug 'jgdavey/tslime.vim'
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'ervandew/supertab'
 Plug 'neomake/neomake'
 Plug 'nathanaelkane/vim-indent-guides'
@@ -71,7 +69,6 @@ Plug 'majutsushi/tagbar'
 " Text manipulation
 Plug 'tpope/vim-surround'
 Plug 'junegunn/vim-easy-align'
-Plug 'simnalamburt/vim-mundo'
 Plug 'tpope/vim-commentary'
 Plug 'godlygeek/tabular'
 Plug 'michaeljsmith/vim-indent-object'
@@ -101,19 +98,11 @@ Plug 'edkolev/erlang-motions.vim'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'elmcast/elm-vim'
 Plug 'moll/vim-node'
-Plug 'vim-scripts/dbext.vim'
 
 " writing
 Plug 'rhysd/vim-grammarous'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
-
-" tmux related
-" Run tests from vim into a tmux panel or window
-Plug 'jgdavey/vim-turbux'
-
-" Open a 20% panel
-Plug 'benmills/vimux'
 
 " Allow pane movement to jump out of vim into tmux
 Plug 'christoomey/vim-tmux-navigator'
@@ -260,18 +249,14 @@ set noswapfile
 " Source the vimrc file after saving it
 augroup sourcing
   autocmd!
-  if has('nvim')
-    autocmd bufwritepost init.vim source $MYVIMRC
-  else
-    autocmd bufwritepost .vimrc source $MYVIMRC
-  endif
+  autocmd bufwritepost .vimrc,init.vim source $MYVIMRC
 augroup END
 
 " Open file prompt with current path
 nmap <leader>e :e <C-R>=expand("%:p:h") . '/'<CR>
 
-" Show undo tree
-nmap <silent> <leader>u :GundoToggle<CR>
+" Open config
+nmap <leader>so :e $MYVIMRC<CR>
 
 " Fuzzy find files
 nnoremap <silent> <Leader><space> :CtrlP<CR>
@@ -432,14 +417,6 @@ endfunction
 
 " }}}
 
-" Slime {{{
-
-vmap <silent> <Leader>rs <Plug>SendSelectionToTmux
-nmap <silent> <Leader>rs <Plug>NormalModeSendToTmux
-nmap <silent> <Leader>rv <Plug>SetTmuxVars
-
-" }}}
-
 " Alignment {{{
 
 " Start interactive EasyAlign in visual mode (e.g. vipga)
@@ -585,10 +562,6 @@ let g:go_highlight_string_spellcheck = 1
 let g:go_highlight_format_strings = 1
 let g:go_highlight_variable_declarations = 1
 let g:go_highlight_variable_assignments = 1
-" }}}
-
-" Turbux {{{
-let g:turbux_command_rspec='bundle exec rspec -fd'
 " }}}
 
 " QFE {{{
