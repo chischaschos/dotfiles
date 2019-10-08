@@ -64,7 +64,9 @@ Plug 'junegunn/gv.vim'
 
 " Bars, panels, and files
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'majutsushi/tagbar'
+Plug 'k0kubun/vim-open-github'
 
 " Text manipulation
 Plug 'tpope/vim-surround'
@@ -90,14 +92,13 @@ Plug 'tpope/vim-markdown'
 Plug 'groenewege/vim-less'
 Plug 'digitaltoad/vim-jade'
 Plug 'tpope/vim-cucumber'
-Plug 'tpope/vim-rails'
 Plug 'elixir-lang/vim-elixir'
 Plug 'isRuslan/vim-es6'
 Plug 'vim-erlang/vim-erlang-runtime'
 Plug 'edkolev/erlang-motions.vim'
-Plug 'ekalinin/Dockerfile.vim'
 Plug 'elmcast/elm-vim'
 Plug 'moll/vim-node'
+Plug 'ruby-formatter/rufo-vim'
 
 " writing
 Plug 'rhysd/vim-grammarous'
@@ -129,10 +130,7 @@ set number
 " Show trailing whitespace
 set list
 
-" But only interesting whitespace
-if &listchars ==# 'eol:$'
-  set listchars=tab:\│\ ,trail:-,extends:>,precedes:<,nbsp:+
-endif
+set listchars=tab:\│\ ,trail:-,extends:>,precedes:<,nbsp:+
 
 " Height of the command bar
 set cmdheight=1
@@ -365,6 +363,7 @@ if has('nvim')
   tnoremap <c-l> <C-\><C-n><C-w>l
 endif
 
+nmap <leader>ccl :ccl<CR>
 
 " }}}
 
@@ -483,7 +482,7 @@ vnoremap <silent> <leader>h> :call Pointful()<CR>
 
 " bind K to grep word under cursor
 nnoremap K :GrepperAg "\b<C-R><C-W>\b"<CR>:cw<CR>
-nnoremap <leader>G :Grepper -tool ag<cr>
+nnoremap <leader>G :Ag<cr>
 " }}}
 
 " Relative numbering {{{
@@ -492,7 +491,7 @@ autocmd FocusLost * :set number
 autocmd FocusGained * :set relativenumber
 autocmd InsertEnter * :set number
 autocmd InsertLeave * :set relativenumber
-" }}}
+" " }}}
 
 " Fuzzy Finder FZF {{{
 let g:fzf_action = {
@@ -590,4 +589,15 @@ let g:qfenter_keymap = {}
 let g:qfenter_keymap.vopen = ['<C-v>']
 let g:qfenter_keymap.hopen = ['<C-CR>', '<C-s>', '<C-x>']
 let g:qfenter_keymap.topen = ['<C-t>']
+" }}}
+
+" Habit breaking {{{
+" noremap <Up> <NOP>
+" noremap <Down> <NOP>
+" noremap <Left> <NOP>
+" noremap <Right> <NOP>
+" noremap h <NOP>
+" noremap j <NOP>
+" noremap k <NOP>
+" noremap l <NOP>
 " }}}

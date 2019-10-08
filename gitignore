@@ -2,8 +2,8 @@
 *.swp
 *.swo
 .ruby-version
-tags
 node_modules
 .*@neomake*
 .envrc
+.envrc.*
 .byebug_history

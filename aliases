@@ -3,11 +3,16 @@
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+alias cat='bat'
+alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
+alias wanip='dig +short myip.opendns.com @resolver1.opendns.com'
+alias preview="fzf --preview 'bat --color \"always\" {}'"
 
 alias be='bundle exec'
 alias sr='spring rspec'
 alias bo='bundle open'
-alias ber="bundle exec rake"
+alias beer="bundle exec rspec -fd"
+alias berk="bundle exec rake"
 alias cuke="be cucumber"
 
 #####
@@ -28,6 +33,7 @@ alias h='heroku'
 # bare vim stuff
 alias v='nvim'
 alias vim='nvim'
+alias vvim='nvim -u ~/.dotfiles/vanilla-vim'
 
 # open helpers
 alias chrome="open -a 'Google Chrome'"
