@@ -52,21 +52,19 @@ Plug 'ervandew/supertab'
 Plug 'neomake/neomake'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'vim-scripts/gitignore'
-Plug 'mhinz/vim-grepper'
 Plug 'tpope/vim-endwise'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'yssl/QFEnter'
 
 " Git
 Plug 'tpope/vim-fugitive'
-Plug 'junegunn/gv.vim'
-" Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-rhubarb'
 
 " Bars, panels, and files
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'majutsushi/tagbar'
-Plug 'k0kubun/vim-open-github'
+Plug 'roman/golden-ratio'
 
 " Text manipulation
 Plug 'tpope/vim-surround'
@@ -99,11 +97,19 @@ Plug 'edkolev/erlang-motions.vim'
 Plug 'elmcast/elm-vim'
 Plug 'moll/vim-node'
 Plug 'ruby-formatter/rufo-vim'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'pangloss/vim-javascript'
+Plug 'elzr/vim-json'
+Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'mattn/emmet-vim'
 
 " writing
 Plug 'rhysd/vim-grammarous'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
+Plug 'vimwiki/vimwiki'
+Plug 'michal-h21/vim-zettel'
 
 " tmux related
 Plug 'christoomey/vim-tmux-runner'
@@ -112,6 +118,7 @@ Plug 'christoomey/vim-tmux-navigator' " Allow pane movement to jump out of vim i
 call plug#end()
 
 " }}}
+" p
 
 " VIM user interface {{{
 "
@@ -478,19 +485,12 @@ vnoremap <silent> <leader>h> :call Pointful()<CR>
 
 " }}}
 
-" Grepper {{{
-
-" bind K to grep word under cursor
-nnoremap K :GrepperAg "\b<C-R><C-W>\b"<CR>:cw<CR>
-nnoremap <leader>G :Ag<cr>
-" }}}
-
 " Relative numbering {{{
-set relativenumber
-autocmd FocusLost * :set number
-autocmd FocusGained * :set relativenumber
-autocmd InsertEnter * :set number
-autocmd InsertLeave * :set relativenumber
+" set relativenumber
+" autocmd FocusLost * :set number
+" autocmd FocusGained * :set relativenumber
+" autocmd InsertEnter * :set number
+" autocmd InsertLeave * :set relativenumber
 " " }}}
 
 " Fuzzy Finder FZF {{{
@@ -500,12 +500,14 @@ let g:fzf_action = {
       \ 'ctrl-t': 'tabe'
       \ }
 nnoremap <c-p> :FZF<cr>
+let g:fzf_preview_window = 'right:60%'
+nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 " }}}
 
 " Neomake {{{
 
 " " When writing a buffer, and on normal mode changes (after 750ms).
-call neomake#configure#automake('nw', 750)
+call neomake#configure#automake('nw', 250)
 let b:neomake_ruby_enabled_makers = ['mri', 'rubocop']
 
 " }}}
@@ -582,6 +584,17 @@ endfunction
 command! -bang VtrRspecRunner call s:SendRspec(<bang>0)
 nnoremap <leader>vt :VtrRspecRunner<cr>
 nnoremap <leader>vT :VtrRspecRunner!<cr>
+
+function! s:SendRubocop()
+  let runner = 'bundle exec rubocop {file}'
+
+  write
+  let local_file_path = expand('%')
+  let run_command = substitute(runner, '{file}', local_file_path, 'g')
+  call VtrSendCommand(run_command, 1)
+endfunction
+command! -bang VtrRubocopRunner call s:SendRubocop()
+nnoremap <leader>vr :VtrRubocopRunner<cr>
 " }}}
 
 " QFE {{{
@@ -592,12 +605,27 @@ let g:qfenter_keymap.topen = ['<C-t>']
 " }}}
 
 " Habit breaking {{{
-" noremap <Up> <NOP>
-" noremap <Down> <NOP>
-" noremap <Left> <NOP>
-" noremap <Right> <NOP>
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
 " noremap h <NOP>
 " noremap j <NOP>
 " noremap k <NOP>
 " noremap l <NOP>
+" how do I edit select columns?
+" }}}
+
+" rubocop {{{
+function! RubocopAutocorrect()
+  execute "!rubocop -a " . bufname("%")
+endfunction
+
+map <silent> <Leader>ra :call RubocopAutocorrect()<cr>
+" }}}
+
+
+" vimwiki {{{
+let g:vimwiki_list = [{'path': '~/vimwiki/',
+      \ 'syntax': 'markdown', 'ext': '.md'}]
 " }}}
