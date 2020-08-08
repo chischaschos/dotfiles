@@ -628,4 +628,11 @@ map <silent> <Leader>ra :call RubocopAutocorrect()<cr>
 " vimwiki {{{
 let g:vimwiki_list = [{'path': '~/vimwiki/',
       \ 'syntax': 'markdown', 'ext': '.md'}]
+
+" search
+map <silent> <Leader>zo :ZettelOpen<cr>
+" search insert link
+map <silent> <Leader>zs :ZettelSearch<cr>
+" insert back links
+map <silent> <Leader>zb :ZettelBackLinks<cr>
 " }}}
