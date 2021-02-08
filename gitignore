@@ -7,3 +7,4 @@ node_modules
 .envrc
 .envrc.*
 .byebug_history
+tags
