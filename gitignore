@@ -8,3 +8,5 @@ node_modules
 .envrc.*
 .byebug_history
 tags
+node_modules
+.git
