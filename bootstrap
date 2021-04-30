@@ -1,0 +1,44 @@
+#!/bin/zsh
+#
+
+mkdir -p ~/.config/nvim
+
+# packages
+#
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+git clone --quiet https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
+
+if ! command -v rcup &> /dev/null; then
+  sudo apt-get install software-properties-common -y
+  sudo add-apt-repository ppa:martin-frost/thoughtbot-rcm
+  sudo apt-get update -y
+  sudo apt-get install rcm -y
+fi
+
+if ! command -v starship &> /dev/null; then
+  sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- --yes
+fi
+
+if ! command -v tree &> /dev/null; then
+  sudo apt-get install -y tree
+fi
+
+if ! command -v batcat &> /dev/null; then
+  sudo apt-get install -y bat
+  mkdir -p ~/.local/bin
+  ln -s /usr/bin/batcat ~/.local/bin/bat
+fi
+
+if ! command -v rg &> /dev/null; then
+  sudo apt-get install -y ripgrep
+fi
+
+if ! command -v fzf &> /dev/null; then
+  sudo apt-get install -y fzf
+fi
+# link rcup
+# starship
+# vim plugins
+nvim +PlugInstall +qall
