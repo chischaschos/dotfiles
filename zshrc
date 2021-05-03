@@ -27,7 +27,7 @@ setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording en
 setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
 setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 
-export EDITOR=/usr/local/bin/nvim
+export EDITOR=nvim
 export GOPATH=~/Projects/GOPATH19
 
 PATH=/usr/local/bin:/usr/local/sbin:$GOPATH/bin:$PATH

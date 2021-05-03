@@ -85,7 +85,7 @@ Plug 'chriskempson/base16-vim'
 
 " Other langs support
 Plug 'fatih/vim-go'
-Plug 'jodosha/vim-godebug'
+" Plug 'jodosha/vim-godebug' uncomment when needed
 Plug 'vim-ruby/vim-ruby'
 Plug 'chase/vim-ansible-yaml'
 Plug 'kchmck/vim-coffee-script'

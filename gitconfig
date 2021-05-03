@@ -1,10 +1,5 @@
 [commit]
   template = ~/.gitmessage
-[user]
-  name = chischaschos
-  email = larin.s931@gmail.com
-[github]
-  user = chischaschos
 [color]
   interactive = auto
   diff = auto
@@ -19,8 +14,9 @@
   top = shortlog -s -n
   files = show --pretty=\"format:\" --name-only
   today = log --pretty=format:\"* %s%d [%h]\" --no-merges --date=short --author='chischaschos' --since=\"$DATE 00:00:00\" --until=\"$DATE 24:00:00\"
-  mine = log -p --date=short --author='chischaschos'
+  mine = log -p --date=short --author='chischaschos' --author='Emmanuel D'
   hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --date=short
+  minehist = log --pretty=format:\"%h %ad | %s%d [%an]\" --date=short --author='chischaschos' --author='Emmanuel D'
   type = cat-file -t
   head = !git l -1                         # Fancy logging.
   h = !git head                            # h = head
@@ -30,19 +26,23 @@
   l = "!. ~/.githelpers && pretty_git_log" # l = all commits, only current branch
   la = !git l --all                        # la = all commits, all reachable refs
   url =! bash -c 'git config --get remote.origin.url | sed -E "s/.+:\\(.+\\)\\.git$/https:\\\\/\\\\/github\\\\.com\\\\/\\\\1/g"'
-[core]
-  editor = /usr/local/bin/nvim
-[heroku]
-  account = personal
 [merge]
   tool = vimdiff3-cmd
   conflictstyle = diff3
 [push]
   default = simple
 [mergetool "vimdiff3-cmd"]
-  cmd = /usr/local/bin/nvim -f -d \"$LOCAL\" \"$MERGED\" \"$REMOTE\"
-[credential]
-  helper = osxkeychain
+  cmd = nvim -f -d \"$LOCAL\" \"$MERGED\" \"$REMOTE\"
 [pager]
   diff = diff-so-fancy | less --tabs=1,5 -RFX
   show = diff-so-fancy | less --tabs=1,5 -RFX
+[diff]
+	algorithm = patience
+[gc]
+	writeCommitGraph = true
+[protocol]
+	version = 2
+[pull]
+	rebase = false
+[include]
+  path = ~/.local.gitconfig
