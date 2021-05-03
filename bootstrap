@@ -1,10 +1,10 @@
 #!/bin/zsh
+# Ubuntu env bootstrap
 #
-
+# directories
 mkdir -p ~/.config/nvim
 
 # packages
-#
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
@@ -38,7 +38,15 @@ fi
 if ! command -v fzf &> /dev/null; then
   sudo apt-get install -y fzf
 fi
-# link rcup
-# starship
+
+
+if ! command -v direnv &> /dev/null; then
+  sudo apt-get install -y direnv
+fi
+
+# linking
+rcup -d dotfiles -x zshrc -x gitconfig -x bundle
+echo "source ~/dotfiles/zshrc" >> ~/.zshrc
+
 # vim plugins
 nvim +PlugInstall +qall
