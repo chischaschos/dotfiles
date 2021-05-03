@@ -45,7 +45,7 @@ if ! command -v direnv &> /dev/null; then
 fi
 
 # linking
-rcup -d dotfiles -x zshrc -x gitconfig -x bundle
+rcup -d dotfiles -x zshrc:gitconfig:bundle:Brewfile:vanilla-vim:karabiner.json
 echo "source ~/dotfiles/zshrc" >> ~/.zshrc
 
 # vim plugins
