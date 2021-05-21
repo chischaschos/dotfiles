@@ -33,16 +33,28 @@
   default = simple
 [mergetool "vimdiff3-cmd"]
   cmd = nvim -f -d \"$LOCAL\" \"$MERGED\" \"$REMOTE\"
-[pager]
-  diff = diff-so-fancy | less --tabs=1,5 -RFX
-  show = diff-so-fancy | less --tabs=1,5 -RFX
+[interactive]
+  diffFilter = delta --color-only
 [diff]
-	algorithm = patience
+  algorithm = patience
 [gc]
-	writeCommitGraph = true
+  writeCommitGraph = true
 [protocol]
-	version = 2
+  version = 2
 [pull]
-	rebase = false
+  rebase = false
 [include]
   path = ~/.local.gitconfig
+[core]
+  pager = delta
+[delta]
+  plus-style = "syntax #012800"
+  minus-style = "syntax #340001"
+  syntax-theme = Monokai Extended
+  navigate = true
+  features = side-by-side line-numbers decorations
+  whitespace-error-style = 22 reverse
+[delta "decorations"]
+  commit-decoration-style = bold yellow box ul
+  file-style = bold yellow ul
+  file-decoration-style = none

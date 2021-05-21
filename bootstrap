@@ -34,6 +34,12 @@ if ! command -v direnv &> /dev/null; then
   sudo apt-get install -y direnv
 fi
 
+if ! command -v delta &> /dev/null; then
+  wget https://github.com/dandavison/delta/releases/download/0.7.1/git-delta_0.7.1_amd64.deb
+  sudo dpkg -i git-delta_0.7.1_amd64.deb
+  rm git-delta_0.7.1_amd64.deb
+fi
+
 if ! command -v exa &> /dev/null; then
   wget https://github.com/ogham/exa/releases/download/v0.10.0/exa-linux-x86_64-v0.10.0.zip
   unzip exa-linux-x86_64-v0.10.0.zip -d exa-tmp
