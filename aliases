@@ -27,3 +27,5 @@ alias vvim='nvim -u ~/.dotfiles/vanilla-vim'
 
 # open helpers
 alias chrome="open -a 'Google Chrome'"
+
+alias rubogit="git status --short | cut -d ' ' -f 3 | xargs bundle exec rubocop -a"
