@@ -651,6 +651,8 @@ map <silent> <Leader>zb :ZettelBackLinks<cr>
 " }}}
 
 " coc {{{
+let g:coc_global_extensions = ['coc-tsserver', 'coc-json', 'coc-git', 'coc-eslint', 'coc-prettier', 'coc-css']
+
 " TextEdit might fail if hidden is not set.
 set hidden
 
