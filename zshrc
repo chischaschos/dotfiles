@@ -1,4 +1,7 @@
+[ -f ~/.local.zshrc ] && source ~/.local.zshrc
+
 eval "$(starship init zsh)"
+eval "$(direnv hook zsh)"
 
 bindkey -e
 
@@ -53,13 +56,9 @@ BASE16_SHELL=$HOME/.config/base16-shell/
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use
 
-# hook https://direnv.net/
-eval "$(direnv hook zsh)"
+export BAT_THEME="Solarized (dark)"
+# export BAT_THEME="Solarized (light)"
 
-[ -f /opt/dev/dev.sh ] && source /opt/dev/dev.sh
-export BAT_THEME="OneHalfLight"
+[[ -f /opt/dev/sh/chruby/chruby.sh ]] && type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; }
 
-# cloudplatform: add Shopify clusters to your local kubernetes config
-export KUBECONFIG=${KUBECONFIG:+$KUBECONFIG:}/Users/emmanueldelgado/.kube/config:/Users/emmanueldelgado/.kube/config.shopify.cloudplatform
-
-if [ -e /Users/emmanueldelgado/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/emmanueldelgado/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+[[ -x /opt/homebrew/bin/brew ]] && eval $(/opt/homebrew/bin/brew shellenv)
