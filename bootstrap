@@ -3,8 +3,6 @@
 # Ubuntu env bootstrap
 #
 if ! command -v rcup &> /dev/null; then
-  sudo apt-get install software-properties-common -y
-  sudo add-apt-repository ppa:martin-frost/thoughtbot-rcm
   sudo apt-get update -y
   sudo apt-get install rcm -y
 fi

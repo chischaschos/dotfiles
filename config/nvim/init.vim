@@ -643,6 +643,7 @@ let g:vimwiki_list = [{'path': '~/vimwiki/',
       \ 'syntax': 'markdown', 'ext': '.md'}]
 
 " search
+let g:zettel_fzf_command = "rg --column --line-number --ignore-case --no-heading --color=always "
 map <silent> <Leader>zo :ZettelOpen<cr>
 " search insert link
 map <silent> <Leader>zs :ZettelSearch<cr>
@@ -651,7 +652,7 @@ map <silent> <Leader>zb :ZettelBackLinks<cr>
 " }}}
 
 " coc {{{
-let g:coc_global_extensions = ['coc-tsserver', 'coc-json', 'coc-git', 'coc-eslint', 'coc-prettier', 'coc-css']
+let g:coc_global_extensions = ['coc-tsserver', 'coc-json', 'coc-git', 'coc-eslint', 'coc-prettier', 'coc-css', 'coc-markdownlint']
 
 " TextEdit might fail if hidden is not set.
 set hidden
@@ -847,4 +848,9 @@ function! s:check_back_space() abort
 endfunction
 
 let g:coc_snippet_next = '<tab>'
+" }}}
+
+
+" abbreviations {{{
+iab <expr> tts strftime("%a %e, %b %Y")
 " }}}
