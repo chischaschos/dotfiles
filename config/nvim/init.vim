@@ -296,7 +296,7 @@ set tw=500
 
 set ai "Auto indent
 set si "Smart indent
-set wrap "Wrap lines
+set nowrap "Wrap lines
 
 " Pretty unicode haskell symbols
 let g:haskell_conceal_wide = 1
