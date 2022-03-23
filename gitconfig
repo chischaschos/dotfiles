@@ -35,12 +35,6 @@
   cmd = nvim -f -d \"$LOCAL\" \"$MERGED\" \"$REMOTE\"
 [interactive]
   diffFilter = delta --color-only
-[diff]
-  algorithm = patience
-[gc]
-  writeCommitGraph = true
-[protocol]
-  version = 2
 [pull]
   rebase = false
 [include]

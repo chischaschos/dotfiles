@@ -48,17 +48,16 @@ set nocompatible
 call plug#begin('~/.vim/bundle')
 
 " Support bundles
-" Plug 'ervandew/supertab'
-Plug 'neomake/neomake'
-Plug 'nathanaelkane/vim-indent-guides'
-Plug 'vim-scripts/gitignore'
-" Plug 'tpope/vim-endwise'
-Plug 'honza/vim-snippets'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'yssl/QFEnter'
+Plug 'honza/vim-snippets'
+Plug 'nathanaelkane/vim-indent-guides'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'vim-airline/vim-airline'
+Plug 'neomake/neomake'
 Plug 'pechorin/any-jump.vim'
+Plug 'tpope/vim-unimpaired'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-scripts/gitignore'
+Plug 'yssl/QFEnter'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -71,14 +70,14 @@ Plug 'majutsushi/tagbar'
 Plug 'roman/golden-ratio'
 
 " Text manipulation
-Plug 'tpope/vim-surround'
-Plug 'junegunn/vim-easy-align'
-Plug 'tpope/vim-commentary'
-Plug 'godlygeek/tabular'
-Plug 'michaeljsmith/vim-indent-object'
 Plug 'easymotion/vim-easymotion'
+Plug 'godlygeek/tabular'
+Plug 'junegunn/vim-easy-align'
 Plug 'kana/vim-textobj-user'
+Plug 'michaeljsmith/vim-indent-object'
 Plug 'rhysd/vim-textobj-ruby'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
 
 " nolorscheme
 Plug 'chriskempson/base16-vim'
@@ -619,10 +618,10 @@ let g:qfenter_keymap.topen = ['<C-t>']
 " }}}
 
 " Habit breaking {{{
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
+" noremap <Up> <NOP>
+" noremap <Down> <NOP>
+" noremap <Left> <NOP>
+" noremap <Right> <NOP>
 " noremap h <NOP>
 " noremap j <NOP>
 " noremap k <NOP>
@@ -641,6 +640,9 @@ map <silent> <Leader>ra :call RubocopAutocorrect()<cr>
 " vimwiki {{{
 let g:vimwiki_list = [{'path': '~/vimwiki/',
       \ 'syntax': 'markdown', 'ext': '.md'}]
+
+nnoremap <silent> <Leader>wnd :VimwikiDiaryNextDay<CR>
+nnoremap <silent> <Leader>wpd :VimwikiDiaryPrevDay<CR>
 
 " search
 let g:zettel_fzf_command = "rg --column --line-number --ignore-case --no-heading --color=always "
