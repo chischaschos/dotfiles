@@ -3,10 +3,10 @@
 alias ll='exa --long --classify'
 alias la='exa --long --all'
 alias l='exa'
-alias cat='bat'
+alias cat='batcat'
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 alias wanip='dig +short myip.opendns.com @resolver1.opendns.com'
-alias preview="fzf --preview 'bat --color \"always\" {}'"
+alias preview="fzf --preview 'batcat --color \"always\" {}'"
 
 alias be='bundle exec'
 

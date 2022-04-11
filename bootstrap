@@ -38,14 +38,7 @@ if ! command -v delta &> /dev/null; then
 fi
 
 if ! command -v exa &> /dev/null; then
-  wget https://github.com/ogham/exa/releases/download/v0.10.0/exa-linux-x86_64-v0.10.0.zip
-  unzip exa-linux-x86_64-v0.10.0.zip -d exa-tmp
-  cd exa-tmp
-  sudo mv bin/exa /usr/local/bin
-  sudo mv completions/exa.zsh /usr/local/share/zsh/site-functions
-  sudo mv man/exa.1 /usr/share/man/man1
-  cd ..
-  rm -rf exa-linux-x86_64-v0.10.0.zip exa-tmp
+  sudo apt install -y exa
 fi
 
 sudo apt install -y fonts-firacode
