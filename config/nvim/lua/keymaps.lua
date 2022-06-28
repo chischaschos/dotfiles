@@ -34,6 +34,4 @@ vim.keymap.set('n', '<c-j>', '<c-w>j', opts)
 -- noremap <c-l> <c-w>l
 vim.keymap.set('n', '<c-l>', '<c-w>l', opts)
 
-vim.cmd [[
-  iab <expr> tts strftime("%a %e, %b %Y")
-]]
+vim.cmd('iab <expr> tts strftime("%a %e, %b %Y")')
