@@ -1,9 +1,8 @@
-vim.cmd [[
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
-  source ~/.vimrc_background
-endif
+local cmd = vim.cmd
+local g = vim.g
 
-let base16colorspace=256  " Access colors present in 256 colorspace
-colorscheme base16-default-dark
-]]
+local base16_project_theme = os.getenv('BASE16_THEME')
+if base16_project_theme and g.colors_name ~= 'base16-'..base16_project_theme then
+  cmd('let base16colorspace=256')
+  cmd('colorscheme base16-'..base16_project_theme)
+end

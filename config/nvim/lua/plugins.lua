@@ -50,7 +50,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 
 --  nolorscheme
-Plug 'chriskempson/base16-vim'
+Plug 'base16-project/base16-vim'
 
 -- Other langs support
 -- Plug 'fatih/vim-go'
