@@ -33,7 +33,7 @@ vim.opt.syntax = 'on'
 vim.opt.termguicolors = true
 vim.opt.wildmenu = true
 vim.opt.wrap = false
-vim.opt.clipboard=unnamed
+vim.opt.clipboard = 'unnamedplus'
 
 vim.cmd [[
   augroup sourcing
