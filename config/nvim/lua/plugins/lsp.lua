@@ -8,6 +8,7 @@ local servers = {
   'tsserver',
   'solargraph',
   'sqlls',
+  'ruby-lsp',
 }
 
 require('nvim-lsp-installer').setup({
@@ -58,12 +59,3 @@ local lspconfig = require('lspconfig')
 for _, server in ipairs(servers) do
   lspconfig[server].setup(opts)
 end
-
-require("null-ls").setup({
-  debug = true,
-  on_attach = on_attach,
-  capabilities = capabilities,
-  sources = {
-    require("null-ls").builtins.diagnostics.vale,
-  },
-})

@@ -34,10 +34,15 @@ vim.opt.termguicolors = true
 vim.opt.wildmenu = true
 vim.opt.wrap = false
 vim.opt.clipboard = 'unnamedplus'
+vim.opt.colorcolumn='73'
 
 vim.cmd [[
   augroup sourcing
     autocmd!
     autocmd bufwritepost init.lua source $MYVIMRC
   augroup END
+
+  " Remove trailing spaces when writing file
+  autocmd BufWritePre * :%s/\s\+$//e
 ]]
+

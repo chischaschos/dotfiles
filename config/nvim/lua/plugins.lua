@@ -28,8 +28,8 @@ Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
 
 -- trouble
--- Plug 'kyazdani42/nvim-web-devicons'
--- Plug 'folke/trouble.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'folke/trouble.nvim'
 
 -- Git
 Plug 'tpope/vim-fugitive'
@@ -81,9 +81,6 @@ Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'vimwiki/vimwiki'
 Plug 'michal-h21/vim-zettel'
-
--- vale support
-Plug 'jose-elias-alvarez/null-ls.nvim'
 
 -- lua support
 Plug 'nvim-lua/plenary.nvim'
