@@ -15,6 +15,10 @@ if ! command -v tree &> /dev/null; then
   sudo apt-get install -y tree
 fi
 
+if ! command -v fd-find &> /dev/null; then
+  sudo apt-get install -y fd-find
+fi
+
 if ! command -v batcat &> /dev/null; then
   sudo apt-get install -y bat
 fi

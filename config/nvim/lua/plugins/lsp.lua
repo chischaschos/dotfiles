@@ -46,7 +46,7 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-  vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
+  vim.keymap.set('n', '<space>f', vim.lsp.buf.format, bufopts)
 end
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -57,5 +57,18 @@ local opts = {
 
 local lspconfig = require('lspconfig')
 for _, server in ipairs(servers) do
+  -- local merged_opts = {}
+
+  -- if server == 'sorbet' then
+  --   merged_opts = {
+  --     -- cmd = { 'bundle', 'exec', 'srb', 'tc', '--lsp' },
+  --     filetypes = { 'ruby' },
+  --     root_dir = lspconfig.util.root_pattern('Gemfile', '.git'),
+  --     -- autostart = false
+  --   }
+  -- end
+
+  -- for k,v in pairs(opts) do merged_opts[k] = v end
+
   lspconfig[server].setup(opts)
 end
