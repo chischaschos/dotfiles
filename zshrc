@@ -31,7 +31,7 @@ setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 export EDITOR=nvim
 export GOPATH=~/Projects/GOPATH19
 
-PATH=/usr/local/bin:/usr/local/sbin:$GOPATH/bin:$(pwd)/bin:$PATH
+PATH=/usr/local/bin:/usr/local/sbin:$GOPATH/bin:$(pwd)/bin:$HOME/.local/bin:$PATH
 
 MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 

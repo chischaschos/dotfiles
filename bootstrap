@@ -17,6 +17,8 @@ fi
 
 if ! command -v fd-find &> /dev/null; then
   sudo apt-get install -y fd-find
+  mkdir -p ~/.local/bin
+  ln -s $(which fdfind) ~/.local/bin/fd
 fi
 
 if ! command -v batcat &> /dev/null; then
