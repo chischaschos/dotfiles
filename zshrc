@@ -58,7 +58,8 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use
 
 # export BAT_THEME="Solarized (dark)"
-export BAT_THEME="Solarized (light)"
+# export BAT_THEME="Solarized (light)"
+export BAT_THEME="Monokai Extended Light"
 
 [[ -f /opt/dev/sh/chruby/chruby.sh ]] && type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; }
 
