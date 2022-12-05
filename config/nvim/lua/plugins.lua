@@ -50,10 +50,10 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 
 --  nolorscheme
-Plug 'base16-project/base16-vim'
+Plug 'tinted-theming/base16-vim'
 
 -- Other langs support
--- Plug 'fatih/vim-go'
+Plug 'fatih/vim-go'
 -- Plug 'jodosha/vim-godebug' uncomment when needed
 -- Plug 'vim-ruby/vim-ruby'
 -- Plug 'tpope/vim-markdown'

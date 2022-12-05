@@ -1,8 +1,5 @@
 [ -f ~/.local.zshrc ] && source ~/.local.zshrc
 
-eval "$(starship init zsh)"
-eval "$(direnv hook zsh)"
-
 bindkey -e
 
 unsetopt correct
@@ -47,7 +44,6 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 # fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Base16 Shell
 BASE16_SHELL_PATH="$HOME/.config/base16-shell"
 [ -n "$PS1" ] && \
   [ -s "$BASE16_SHELL_PATH/profile_helper.sh" ] && \
@@ -61,9 +57,13 @@ export NVM_DIR="$HOME/.nvm"
 # export BAT_THEME="Solarized (light)"
 export BAT_THEME="Monokai Extended Light"
 
-[[ -f /opt/dev/sh/chruby/chruby.sh ]] && type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; }
+source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
 
 [[ -x /opt/homebrew/bin/brew ]] && eval $(/opt/homebrew/bin/brew shellenv)
 
 # Add Visual Studio Code (code)
 # export PATH="\$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+
+eval "$(starship init zsh)"
+eval "$(direnv hook zsh)"
+
