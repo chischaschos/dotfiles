@@ -36,8 +36,6 @@ Plug 'folke/trouble.nvim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 
--- Bars, panels, and files
-Plug 'majutsushi/tagbar'
 Plug 'roman/golden-ratio'
 
 --  Text manipulation
@@ -67,7 +65,6 @@ Plug 'scalameta/nvim-metals'
 -- Plug 'vim-erlang/vim-erlang-runtime'
 -- Plug 'edkolev/erlang-motions.vim'
 -- Plug 'moll/vim-node'
--- Plug 'ruby-formatter/rufo-vim'
 -- Plug 'elzr/vim-json'
 -- Plug 'mattn/emmet-vim'
 

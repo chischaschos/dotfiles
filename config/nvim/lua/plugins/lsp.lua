@@ -11,13 +11,13 @@ local servers = {
   'ruby-lsp',
   'gopls',
   'rust',
+  'rust_analyzer',
 }
 
 require('nvim-lsp-installer').setup({
   ensure_installed = servers,
   automatic_install = true
 })
-
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer

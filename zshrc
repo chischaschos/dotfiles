@@ -28,16 +28,17 @@ setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 export EDITOR=nvim
 MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
-
 export CDPATH=.:~:~/Projects
 
 source ~/.aliases
 
+# >>> fzf
 export FZF_DEFAULT_COMMAND='fd --type f'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
-# fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_COMMAND='fd --type f'
+# <<< fzf
 
 BASE16_SHELL_PATH="$HOME/.config/base16-shell"
 [ -n "$PS1" ] && \
@@ -45,10 +46,12 @@ BASE16_SHELL_PATH="$HOME/.config/base16-shell"
     source "$BASE16_SHELL_PATH/profile_helper.sh"
 
 # export BAT_THEME="Solarized (dark)"
-# export BAT_THEME="Solarized (light)"
-export BAT_THEME="Monokai Extended Light"
+export BAT_THEME="Solarized (light)"
+# export BAT_THEME="Monokai Extended Light"
 
-source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
+# >>> chruby
+[[ -f /opt/dev/sh/chruby/chruby.sh ]] && type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; }
+# <<< chruby
 
 [[ -x /opt/homebrew/bin/brew ]] && eval $(/opt/homebrew/bin/brew shellenv)
 
@@ -56,19 +59,19 @@ source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
 # export PATH="\$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 # <<< Visual Studio
 
-eval "$(starship init zsh)"
-eval "$(direnv hook zsh)"
-
+# >>> NVM
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+# <<< NVM
 
-# >>> JVM installed by coursier >>>
+# >>> JVM installed by coursier
 export JAVA_HOME="/Users/chischaschos/Library/Caches/Coursier/arc/https/github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u292-b10/OpenJDK8U-jdk_x64_mac_hotspot_8u292b10.tar.gz/jdk8u292-b10/Contents/Home"
-# <<< JVM installed by coursier <<<
+# <<< JVM installed by coursier
 
-# >>> coursier install directory >>>
+# >>> coursier
 export PATH="$PATH:/Users/chischaschos/Library/Application Support/Coursier/bin"
-# <<< coursier install directory <<<
+# <<< coursier
 
 # >>> GO
 export GOPATH=~/Projects/GOPATH19
@@ -77,3 +80,7 @@ export GOPATH=~/Projects/GOPATH19
 PATH=/usr/local/bin:/usr/local/sbin:$GOPATH/bin:$(pwd)/bin:$HOME/.local/bin:$PATH
 
 export -U PATH
+
+eval "$(starship init zsh)"
+eval "$(direnv hook zsh)"
+
