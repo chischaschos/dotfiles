@@ -57,7 +57,7 @@ echo "source ~/dotfiles/zshrc" >> ~/.zshrc
 
 source ~/.zshrc
 
-[ ! -d '~/.config/base16-shell' ] && git clone --quiet https://github.com/base16-project/base16-shell.git ~/.config/base16-shell
+[ ! -d '~/.config/base16-shell' ] && git clone --quiet https://github.com/tinted-theming/base16-shell ~/.config/base16-shell
 
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
