@@ -12,6 +12,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-scripts/gitignore'
 Plug 'yssl/QFEnter'
 Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'})
+Plug 'github/copilot.vim'
 
 -- LSP
 Plug 'hrsh7th/cmp-buffer'
@@ -54,6 +55,8 @@ Plug 'tinted-theming/base16-vim'
 
 -- Other langs support
 Plug 'fatih/vim-go'
+Plug 'rust-lang/rust.vim'
+Plug 'scalameta/nvim-metals'
 -- Plug 'jodosha/vim-godebug' uncomment when needed
 -- Plug 'vim-ruby/vim-ruby'
 -- Plug 'tpope/vim-markdown'

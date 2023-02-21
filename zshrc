@@ -26,13 +26,8 @@ setopt HIST_VERIFY               # Don't execute immediately upon history expans
 setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 
 export EDITOR=nvim
-export GOPATH=~/Projects/GOPATH19
-
-PATH=/usr/local/bin:/usr/local/sbin:$GOPATH/bin:$(pwd)/bin:$HOME/.local/bin:$PATH
-
 MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
-export -U PATH
 
 export CDPATH=.:~:~/Projects
 
@@ -49,10 +44,6 @@ BASE16_SHELL_PATH="$HOME/.config/base16-shell"
   [ -s "$BASE16_SHELL_PATH/profile_helper.sh" ] && \
     source "$BASE16_SHELL_PATH/profile_helper.sh"
 
-# node
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use
-
 # export BAT_THEME="Solarized (dark)"
 # export BAT_THEME="Solarized (light)"
 export BAT_THEME="Monokai Extended Light"
@@ -61,9 +52,28 @@ source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
 
 [[ -x /opt/homebrew/bin/brew ]] && eval $(/opt/homebrew/bin/brew shellenv)
 
-# Add Visual Studio Code (code)
+# >>> Visual Studio
 # export PATH="\$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+# <<< Visual Studio
 
 eval "$(starship init zsh)"
 eval "$(direnv hook zsh)"
 
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+# >>> JVM installed by coursier >>>
+export JAVA_HOME="/Users/chischaschos/Library/Caches/Coursier/arc/https/github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u292-b10/OpenJDK8U-jdk_x64_mac_hotspot_8u292b10.tar.gz/jdk8u292-b10/Contents/Home"
+# <<< JVM installed by coursier <<<
+
+# >>> coursier install directory >>>
+export PATH="$PATH:/Users/chischaschos/Library/Application Support/Coursier/bin"
+# <<< coursier install directory <<<
+
+# >>> GO
+export GOPATH=~/Projects/GOPATH19
+# <<< GO
+
+PATH=/usr/local/bin:/usr/local/sbin:$GOPATH/bin:$(pwd)/bin:$HOME/.local/bin:$PATH
+
+export -U PATH
