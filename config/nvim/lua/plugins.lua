@@ -22,6 +22,7 @@ Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'neovim/nvim-lspconfig'
+Plug 'mfussenegger/nvim-dap'
 Plug 'williamboman/nvim-lsp-installer'
 
 -- For vsnip
@@ -91,5 +92,9 @@ Plug 'christoomey/vim-tmux-navigator'
 -- searching
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
+
+-- status line
+Plug 'nvim-lualine/lualine.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
 
 vim.call('plug#end')
