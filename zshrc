@@ -50,7 +50,7 @@ export BAT_THEME="Solarized (light)"
 # export BAT_THEME="Monokai Extended Light"
 
 # >>> chruby
-[[ -f /opt/dev/sh/chruby/chruby.sh ]] && type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; }
+[[ -f /opt/dev/sh/chruby/chruby.sh ]] && { type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; } }
 # <<< chruby
 
 [[ -x /opt/homebrew/bin/brew ]] && eval $(/opt/homebrew/bin/brew shellenv)
@@ -65,10 +65,6 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 # <<< NVM
 
-# >>> coursier
-export PATH="$PATH:/Users/chischaschos/Library/Application Support/Coursier/bin"
-# <<< coursier
-
 # >>> GO
 export GOPATH=~/Projects/GOPATH19
 # <<< GO
@@ -79,4 +75,3 @@ export -U PATH
 
 eval "$(starship init zsh)"
 eval "$(direnv hook zsh)"
-

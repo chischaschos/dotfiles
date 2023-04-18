@@ -2,6 +2,7 @@ local opts = { noremap = true, silent = true }
 
 -- Open file prompt with current path
 vim.keymap.set('n', '<leader>ew', ':e <C-R>=expand(\"%:p:h\") . \'/\'<CR><CR>', opts)
+vim.keymap.set('n', '<leader>e', ':e <C-R>=expand(\"%:p:h\") . \'/\'<CR>', opts)
 
 -- Open config
 vim.keymap.set('n', '<leader>so', ':e $MYVIMRC<CR>', opts)
