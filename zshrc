@@ -75,3 +75,10 @@ export -U PATH
 
 eval "$(starship init zsh)"
 eval "$(direnv hook zsh)"
+
+# cloudplatform: add Shopify clusters to your local kubernetes config
+export KUBECONFIG=${KUBECONFIG:+$KUBECONFIG:}/Users/emmanueldelgado/.kube/config:/Users/emmanueldelgado/.kube/config.shopify.cloudplatform
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+# export SDKMAN_DIR="/opt/homebrew/opt/sdkman-cli/libexec"
+# [[ -s "/opt/homebrew/opt/sdkman-cli/libexec/bin/sdkman-init.sh" ]] && source "/opt/homebrew/opt/sdkman-cli/libexec/bin/sdkman-init.sh"

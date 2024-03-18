@@ -36,3 +36,4 @@ vim.keymap.set('n', '<c-j>', '<c-w>j', opts)
 vim.keymap.set('n', '<c-l>', '<c-w>l', opts)
 
 vim.cmd('iab <expr> tts strftime("%a %e, %b %Y")')
+vim.cmd('iab <expr> fts strftime("%H:%M:%S %Z")')
