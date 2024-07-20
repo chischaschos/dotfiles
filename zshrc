@@ -26,16 +26,17 @@ setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 export EDITOR=nvim
 MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
-
 export CDPATH=.:~:~/Projects
 
 source ~/.aliases
 
+# >>> fzf
 export FZF_DEFAULT_COMMAND='fd --type f'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
-# fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_COMMAND='fd --type f'
+# <<< fzf
 
 BASE16_SHELL_PATH="$HOME/.config/base16-shell"
 [ -n "$PS1" ] && \
@@ -43,10 +44,12 @@ BASE16_SHELL_PATH="$HOME/.config/base16-shell"
     source "$BASE16_SHELL_PATH/profile_helper.sh"
 
 # export BAT_THEME="Solarized (dark)"
-# export BAT_THEME="Solarized (light)"
-export BAT_THEME="Monokai Extended Light"
+export BAT_THEME="Solarized (light)"
+# export BAT_THEME="Monokai Extended Light"
 
-source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
+# >>> chruby
+[[ -f /opt/dev/sh/chruby/chruby.sh ]] && { type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; } }
+# <<< chruby
 
 [[ -x /opt/homebrew/bin/brew ]] && eval $(/opt/homebrew/bin/brew shellenv)
 

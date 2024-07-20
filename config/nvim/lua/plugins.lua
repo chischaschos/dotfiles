@@ -13,6 +13,7 @@ Plug 'vim-scripts/gitignore'
 Plug 'yssl/QFEnter'
 Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'})
 Plug 'github/copilot.vim'
+Plug 'preservim/tagbar'
 
 -- LSP
 Plug 'hrsh7th/cmp-buffer'
@@ -22,6 +23,7 @@ Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'neovim/nvim-lspconfig'
+Plug 'mfussenegger/nvim-dap'
 Plug 'williamboman/nvim-lsp-installer'
 
 -- For vsnip
@@ -36,8 +38,6 @@ Plug 'folke/trouble.nvim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 
--- Bars, panels, and files
-Plug 'majutsushi/tagbar'
 Plug 'roman/golden-ratio'
 
 --  Text manipulation
@@ -55,7 +55,7 @@ Plug 'tinted-theming/base16-vim'
 
 -- Other langs support
 Plug 'fatih/vim-go'
-Plug 'rust-lang/rust.vim'
+Plug 'mrcjkb/rustaceanvim'
 Plug 'scalameta/nvim-metals'
 -- Plug 'jodosha/vim-godebug' uncomment when needed
 -- Plug 'vim-ruby/vim-ruby'
@@ -67,7 +67,6 @@ Plug 'scalameta/nvim-metals'
 -- Plug 'vim-erlang/vim-erlang-runtime'
 -- Plug 'edkolev/erlang-motions.vim'
 -- Plug 'moll/vim-node'
--- Plug 'ruby-formatter/rufo-vim'
 -- Plug 'elzr/vim-json'
 -- Plug 'mattn/emmet-vim'
 
@@ -94,5 +93,9 @@ Plug 'christoomey/vim-tmux-navigator'
 -- searching
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
+
+-- status line
+Plug 'nvim-lualine/lualine.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
 
 vim.call('plug#end')

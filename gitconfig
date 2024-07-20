@@ -42,12 +42,18 @@
 [core]
   pager = delta
 [delta]
+  side-by-side = false
   plus-style = "syntax #012800"
   minus-style = "syntax #340001"
   navigate = true
   features = side-by-side line-numbers decorations
   whitespace-error-style = 22 reverse
+  wrap-max-lines=4
 [delta "decorations"]
   commit-decoration-style = bold yellow box ul
   file-style = bold yellow ul
   file-decoration-style = none
+[init]
+	defaultBranch = main
+[rebase]
+	autosquash = true

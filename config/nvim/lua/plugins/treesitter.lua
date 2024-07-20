@@ -1,7 +1,6 @@
 local configs = {
   'css',
   'go',
-  'vimdoc',
   'html',
   'http',
   'javascript',
@@ -15,8 +14,10 @@ local configs = {
   'scala',
   'typescript',
   'vim',
+  'vimdoc',
   'yaml',
 }
+
 
 require('nvim-treesitter.configs').setup({
   ensure_installed = configs,

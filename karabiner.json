@@ -1,185 +1,197 @@
 {
-  "global": {
-    "check_for_updates_on_startup": true,
-    "show_in_menu_bar": false,
-    "show_profile_name_in_menu_bar": false
-  },
-  "profiles": [
+  "title": "Change caps_lock key (rev 5)",
+  "rules": [
     {
-      "complex_modifications": {
-        "parameters": {
-          "basic.simultaneous_threshold_milliseconds": 50,
-          "basic.to_delayed_action_delay_milliseconds": 500,
-          "basic.to_if_alone_timeout_milliseconds": 500,
-          "basic.to_if_held_down_threshold_milliseconds": 500,
-          "mouse_motion_to_scroll.speed": 100
-        },
-        "rules": [
-          {
-            "manipulators": [
-              {
-                "description": "caps_lock to backspace",
-                "from": {
-                  "key_code": "caps_lock",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "key_code": "left_control"
-                  }
-                ],
-                "to_if_alone": [
-                  {
-                    "key_code": "delete_or_backspace"
-                  }
-                ],
-                "type": "basic"
-              }
-            ]
-          }
-        ]
-      },
-      "devices": [],
-      "fn_function_keys": [
+      "description": "Change caps_lock key to command+control+option+shift if pressed with other keys",
+      "manipulators": [
         {
+          "type": "basic",
           "from": {
-            "key_code": "f1"
-          },
-          "to": [
-            {
-              "key_code": "display_brightness_decrement"
+            "key_code": "caps_lock",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
             }
-          ]
-        },
-        {
-          "from": {
-            "key_code": "f2"
           },
           "to": [
             {
-              "key_code": "display_brightness_increment"
+              "key_code": "left_shift",
+              "modifiers": [
+                "left_command",
+                "left_control",
+                "left_option"
+              ]
             }
-          ]
-        },
-        {
-          "from": {
-            "key_code": "f3"
-          },
-          "to": [
+          ],
+          "to_if_alone": [
             {
-              "key_code": "mission_control"
-            }
-          ]
-        },
-        {
-          "from": {
-            "key_code": "f4"
-          },
-          "to": [
-            {
-              "key_code": "launchpad"
-            }
-          ]
-        },
-        {
-          "from": {
-            "key_code": "f5"
-          },
-          "to": [
-            {
-              "key_code": "illumination_decrement"
-            }
-          ]
-        },
-        {
-          "from": {
-            "key_code": "f6"
-          },
-          "to": [
-            {
-              "key_code": "illumination_increment"
-            }
-          ]
-        },
-        {
-          "from": {
-            "key_code": "f7"
-          },
-          "to": [
-            {
-              "key_code": "rewind"
-            }
-          ]
-        },
-        {
-          "from": {
-            "key_code": "f8"
-          },
-          "to": [
-            {
-              "key_code": "play_or_pause"
-            }
-          ]
-        },
-        {
-          "from": {
-            "key_code": "f9"
-          },
-          "to": [
-            {
-              "key_code": "fastforward"
-            }
-          ]
-        },
-        {
-          "from": {
-            "key_code": "f10"
-          },
-          "to": [
-            {
-              "key_code": "mute"
-            }
-          ]
-        },
-        {
-          "from": {
-            "key_code": "f11"
-          },
-          "to": [
-            {
-              "key_code": "volume_decrement"
-            }
-          ]
-        },
-        {
-          "from": {
-            "key_code": "f12"
-          },
-          "to": [
-            {
-              "key_code": "volume_increment"
+              "hold_down_milliseconds": 100,
+              "key_code": "caps_lock"
             }
           ]
         }
-      ],
-      "name": "chischaschos",
-      "parameters": {
-        "delay_milliseconds_before_open_device": 1000
-      },
-      "selected": true,
-      "simple_modifications": [],
-      "virtual_hid_keyboard": {
-        "caps_lock_delay_milliseconds": 100,
-        "country_code": 0,
-        "indicate_sticky_modifier_keys_state": true,
-        "keyboard_type": "ansi",
-        "mouse_key_xy_scale": 100,
-        "standalone_keys_delay_milliseconds": 250
-      }
+      ]
+    },
+    {
+      "description": "Change caps_lock key to command+control+option+shift. (Post escape key when pressed alone)",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "caps_lock",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "left_shift",
+              "modifiers": [
+                "left_command",
+                "left_control",
+                "left_option"
+              ]
+            }
+          ],
+          "to_if_alone": [
+            {
+              "key_code": "escape"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Change caps_lock key to command+control+option+shift. (Post f19 key when pressed alone)",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "caps_lock",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "left_shift",
+              "modifiers": [
+                "left_command",
+                "left_control",
+                "left_option"
+              ]
+            }
+          ],
+          "to_if_alone": [
+            {
+              "key_code": "f19"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Change caps_lock key to command+control+option+shift. (Use shift+caps_lock as caps_lock)",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "caps_lock",
+            "modifiers": {
+              "mandatory": [
+                "shift"
+              ],
+              "optional": [
+                "caps_lock"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "caps_lock"
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "caps_lock",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "left_shift",
+              "modifiers": [
+                "left_command",
+                "left_control",
+                "left_option"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Change caps_lock to control if pressed with other keys, to escape if pressed alone.",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "caps_lock",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "left_control"
+            }
+          ],
+          "to_if_alone": [
+            {
+              "key_code": "escape"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Change caps_lock to control if pressed with other keys. (rev 2)",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "caps_lock",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "left_control"
+            }
+          ],
+          "to_if_alone": [
+            {
+              "key_code": "caps_lock",
+              "hold_down_milliseconds": 500
+            }
+          ]
+        }
+      ]
     }
   ]
 }
