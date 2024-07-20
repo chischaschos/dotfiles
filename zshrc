@@ -1,5 +1,3 @@
-[ -f ~/.local.zshrc ] && source ~/.local.zshrc
-
 bindkey -e
 
 unsetopt correct
@@ -62,18 +60,4 @@ eval "$(direnv hook zsh)"
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
-# >>> JVM installed by coursier >>>
-export JAVA_HOME="/Users/chischaschos/Library/Caches/Coursier/arc/https/github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u292-b10/OpenJDK8U-jdk_x64_mac_hotspot_8u292b10.tar.gz/jdk8u292-b10/Contents/Home"
-# <<< JVM installed by coursier <<<
-
-# >>> coursier install directory >>>
-export PATH="$PATH:/Users/chischaschos/Library/Application Support/Coursier/bin"
-# <<< coursier install directory <<<
-
-# >>> GO
-export GOPATH=~/Projects/GOPATH19
-# <<< GO
-
-PATH=/usr/local/bin:/usr/local/sbin:$GOPATH/bin:$(pwd)/bin:$HOME/.local/bin:$PATH
-
-export -U PATH
+[ -f ~/.local.zshrc ] && source ~/.local.zshrc

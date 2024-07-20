@@ -1,19 +1,21 @@
 local configs = {
+  'css',
+  'go',
+  'vimdoc',
   'html',
   'http',
-  'css',
   'javascript',
   'json',
   'jsonc',
-  'markdown',
-  'yaml',
-  'typescript',
-  'python',
-  'rust',
   'lua',
-  'go',
+  'markdown',
+  'python',
   'ruby',
-  'vim'
+  'rust',
+  'scala',
+  'typescript',
+  'vim',
+  'yaml',
 }
 
 require('nvim-treesitter.configs').setup({

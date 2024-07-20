@@ -11,6 +11,7 @@ local servers = {
   'ruby-lsp',
   'gopls',
   'rust',
+  'bzl'
 }
 
 require('nvim-lsp-installer').setup({
@@ -59,20 +60,18 @@ local opts = {
 
 local lspconfig = require('lspconfig')
 for _, server in ipairs(servers) do
-  -- local merged_opts = {}
+  local merged_opts = {}
 
-  -- if server == 'sorbet' then
-  --   merged_opts = {
-  --     -- cmd = { 'bundle', 'exec', 'srb', 'tc', '--lsp' },
-  --     filetypes = { 'ruby' },
-  --     root_dir = lspconfig.util.root_pattern('Gemfile', '.git'),
-  --     -- autostart = false
-  --   }
-  -- end
+  if server == 'bzl' then
+    merged_opts = {
+      filetypes = { 'bzl', 'star' },
+      root_dir = lspconfig.util.root_pattern(".git")
+    }
+  end
 
-  -- for k,v in pairs(opts) do merged_opts[k] = v end
+  for k,v in pairs(opts) do merged_opts[k] = v end
 
-  lspconfig[server].setup(opts)
+  lspconfig[server].setup(merged_opts)
 end
 
 local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
@@ -84,3 +83,7 @@ vim.api.nvim_create_autocmd("FileType", {
   group = nvim_metals_group,
 })
 
+-- Associate the Starlark file types with the LSP server
+vim.api.nvim_exec([[
+  autocmd BufRead,BufNewFile *.star set filetype=bzl
+]], false)
