@@ -44,5 +44,8 @@ vim.cmd [[
 
   " Remove trailing spaces when writing file
   autocmd BufWritePre * :%s/\s\+$//e
+  autocmd BufRead *.rs :setlocal tags=./rusty-tags.vi;/
 ]]
+
+
 

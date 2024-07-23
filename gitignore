@@ -11,3 +11,4 @@ tags
 node_modules
 .git
 .metals
+*.vi

@@ -30,15 +30,20 @@ export CDPATH=.:~:~/Projects
 
 source ~/.aliases
 
+[[ -x /opt/homebrew/bin/brew ]] && eval $(/opt/homebrew/bin/brew shellenv)
+
 # >>> fzf
 export FZF_DEFAULT_COMMAND='fd --type f'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# Set up fzf key bindings and fuzzy completion
+eval "$(fzf --zsh)"
+
 export FZF_DEFAULT_COMMAND='fd --type f'
 # <<< fzf
 
-BASE16_SHELL_PATH="$HOME/.config/base16-shell"
+# Tinted Shell
+BASE16_SHELL_PATH="$HOME/.config/tinted-theming/tinted-shell"
 [ -n "$PS1" ] && \
   [ -s "$BASE16_SHELL_PATH/profile_helper.sh" ] && \
     source "$BASE16_SHELL_PATH/profile_helper.sh"
@@ -47,15 +52,15 @@ BASE16_SHELL_PATH="$HOME/.config/base16-shell"
 export BAT_THEME="Solarized (light)"
 # export BAT_THEME="Monokai Extended Light"
 
+# load dev, but only if present and the shell is interactive
+if [[ -f /opt/dev/dev.sh ]] && [[ $- == *i* ]]; then
+  source /opt/dev/dev.sh
+fi
+
 # >>> chruby
 [[ -f /opt/dev/sh/chruby/chruby.sh ]] && { type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; } }
 # <<< chruby
 
-[[ -x /opt/homebrew/bin/brew ]] && eval $(/opt/homebrew/bin/brew shellenv)
-
-# >>> Visual Studio
-# export PATH="\$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-# <<< Visual Studio
 
 eval "$(starship init zsh)"
 eval "$(direnv hook zsh)"

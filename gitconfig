@@ -39,6 +39,7 @@
   rebase = false
 [include]
   path = ~/.local.gitconfig
+	path = /Users/emmanueldelgado/.config/dev/gitconfig
 [core]
   pager = delta
 [delta]
