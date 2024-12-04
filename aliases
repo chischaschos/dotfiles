@@ -1,8 +1,8 @@
 #####
 # Misc utils
-alias ll='exa --long --classify'
-alias la='exa --long --all'
-alias l='exa'
+alias ll='eza --long --classify'
+alias la='eza --long --all'
+alias l='eza'
 alias cat='bat'
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 alias wanip='dig +short myip.opendns.com @resolver1.opendns.com'

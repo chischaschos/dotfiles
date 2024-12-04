@@ -1,0 +1,22 @@
+# Global settings
+shell = "zsh -c '{}'"
+default-scheme = "base16-mocha"
+
+# Item configurations
+[[items]]
+name = "bash"
+path = "https://github.com/tinted-theming/base16-shell"
+themes-dir = "scripts"
+hook = "source %f"
+
+[[items]]
+path = "https://github.com/tinted-theming/base16-vim"
+name = "base16-vim"
+themes-dir = "colors"
+
+[[items]]
+path = "https://github.com/tinted-theming/tinted-tmux"
+name = "tinted-tmux"
+# Check if tmux is in use and if it is, reload the config file
+hook = "test -n \"$TMUX\" && tmux source-file %f"
+themes-dir = "colors"
