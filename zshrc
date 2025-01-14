@@ -57,11 +57,6 @@ if [[ -f /opt/dev/dev.sh ]] && [[ $- == *i* ]]; then
   source /opt/dev/dev.sh
 fi
 
-# >>> chruby
-[[ -f /opt/dev/sh/chruby/chruby.sh ]] && { type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; } }
-# <<< chruby
-
-
 eval "$(starship init zsh)"
 eval "$(direnv hook zsh)"
 
