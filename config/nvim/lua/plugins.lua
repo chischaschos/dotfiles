@@ -8,22 +8,28 @@ Plug 'nathanaelkane/vim-indent-guides'
 Plug 'neomake/neomake'
 Plug 'pechorin/any-jump.vim'
 Plug 'tpope/vim-unimpaired'
-Plug 'vim-airline/vim-airline'
 Plug 'vim-scripts/gitignore'
 Plug 'yssl/QFEnter'
 Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'})
 Plug 'github/copilot.vim'
 Plug 'preservim/tagbar'
+Plug 'kevinhwang91/nvim-ufo' --folding
+Plug 'kevinhwang91/promise-async' -- required by ufo
 
 -- LSP
+Plug 'antoinemadec/FixCursorHold.nvim'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/nvim-cmp'
-Plug 'neovim/nvim-lspconfig'
+Plug 'ldelossa/nvim-dap-projects'
 Plug 'mfussenegger/nvim-dap'
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-neotest/neotest'
+Plug 'nvim-neotest/nvim-nio'
+Plug 'rcarriga/nvim-dap-ui'
 Plug 'williamboman/nvim-lsp-installer'
 
 -- For vsnip
@@ -57,30 +63,8 @@ Plug 'tinted-theming/base16-vim'
 Plug 'fatih/vim-go'
 Plug 'mrcjkb/rustaceanvim'
 Plug 'scalameta/nvim-metals'
--- Plug 'jodosha/vim-godebug' uncomment when needed
--- Plug 'vim-ruby/vim-ruby'
--- Plug 'tpope/vim-markdown'
--- Plug 'groenewege/vim-less'
--- Plug 'digitaltoad/vim-jade'
--- Plug 'tpope/vim-cucumber'
--- Plug 'elixir-lang/vim-elixir'
--- Plug 'vim-erlang/vim-erlang-runtime'
--- Plug 'edkolev/erlang-motions.vim'
--- Plug 'moll/vim-node'
--- Plug 'elzr/vim-json'
--- Plug 'mattn/emmet-vim'
-
--- JS crap
--- Plug 'leafgarland/typescript-vim'
--- Plug 'maxmellon/vim-jsx-pretty'
--- Plug 'pangloss/vim-javascript'
--- Plug 'peitalin/vim-jsx-typescript'
--- Plug 'yuezk/vim-js'
 
 -- writing
-Plug 'rhysd/vim-grammarous'
-Plug 'junegunn/goyo.vim'
-Plug 'junegunn/limelight.vim'
 Plug 'vimwiki/vimwiki'
 Plug 'michal-h21/vim-zettel'
 

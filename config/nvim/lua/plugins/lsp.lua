@@ -6,7 +6,6 @@ local servers = {
   'bzl',
   'eslint',
   'gopls',
-  'gopls',
   'graphql',
   'html',
   'jsonls',
@@ -16,7 +15,7 @@ local servers = {
   'solargraph',
   'sorbet',
   'sqlls',
-  'tsserver'
+  'tsserver',
 }
 
 require('nvim-lsp-installer').setup({
@@ -188,3 +187,5 @@ end
 vim.api.nvim_exec([[
   autocmd BufRead,BufNewFile *.star set filetype=bzl
 ]], false)
+
+lspconfig.harper_ls.setup(opts)

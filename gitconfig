@@ -41,6 +41,7 @@
   path = ~/.local.gitconfig
 [core]
   pager = delta
+	excludesfile = /Users/emmanueldelgado/.gitignore
 [delta]
   side-by-side = false
   plus-style = "syntax #012800"
