@@ -41,7 +41,6 @@
   path = ~/.local.gitconfig
 [core]
   pager = delta
-	excludesfile = /Users/emmanueldelgado/.gitignore
 [delta]
   side-by-side = false
   plus-style = "syntax #012800"
@@ -58,3 +57,5 @@
 	defaultBranch = main
 [rebase]
 	autosquash = true
+[include]
+	path = ~/.local/share/tinted-theming/tinty/tinted-delta-configs-file.gitconfig

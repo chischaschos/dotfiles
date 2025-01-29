@@ -56,7 +56,6 @@ Plug 'rhysd/vim-textobj-ruby'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 
---  nolorscheme
 Plug 'tinted-theming/base16-vim'
 
 -- Other langs support
@@ -81,5 +80,7 @@ Plug 'junegunn/fzf.vim'
 -- status line
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
+
+Plug 'hashivim/vim-terraform'
 
 vim.call('plug#end')

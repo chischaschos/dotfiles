@@ -1,5 +1,8 @@
 bindkey -e
 
+autoload -Uz compinit
+compinit
+
 unsetopt correct
 setopt extended_glob
 
@@ -42,16 +45,6 @@ eval "$(fzf --zsh)"
 export FZF_DEFAULT_COMMAND='fd --type f'
 # <<< fzf
 
-# Tinted Shell
-BASE16_SHELL_PATH="$HOME/.config/tinted-theming/tinted-shell"
-[ -n "$PS1" ] && \
-  [ -s "$BASE16_SHELL_PATH/profile_helper.sh" ] && \
-    source "$BASE16_SHELL_PATH/profile_helper.sh"
-
-# export BAT_THEME="Solarized (dark)"
-export BAT_THEME="Solarized (light)"
-# export BAT_THEME="Monokai Extended Light"
-
 # load dev, but only if present and the shell is interactive
 if [[ -f /opt/dev/dev.sh ]] && [[ $- == *i* ]]; then
   source /opt/dev/dev.sh
@@ -65,3 +58,5 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 nvm use default --silent
 
 [ -f ~/.local.zshrc ] && source ~/.local.zshrc
+
+[[ -f /opt/dev/sh/chruby/chruby.sh ]] && { type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; } }

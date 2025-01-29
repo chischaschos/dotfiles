@@ -3,6 +3,7 @@
 alias ll='eza --long --classify'
 alias la='eza --long --all'
 alias l='eza'
+alias bat="bat --theme='base16-256'"
 alias cat='bat'
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 alias wanip='dig +short myip.opendns.com @resolver1.opendns.com'
@@ -29,3 +30,4 @@ alias vvim='nvim -u ~/.dotfiles/vanilla-vim'
 alias chrome="open -a 'Google Chrome'"
 
 alias rubogit="git status --short | cut -d ' ' -f 3 | xargs bundle exec rubocop -a"
+alias myrcup="rcup -d ~/dotfiles -x Brewfile -x vanilla-vim -x README.md"

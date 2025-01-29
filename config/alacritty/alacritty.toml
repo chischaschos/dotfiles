@@ -1,3 +1,6 @@
+[env]
+TERM="xterm-256color"
+
 [font]
 size = 13
 
@@ -15,4 +18,7 @@ style = "Italic"
 
 [font.normal]
 family = "FiraCode Nerd Font Mono"
-style = "Regular"
+style = "Retina"
+
+[general]
+import = ["~/.config/alacritty/colors.toml"]
