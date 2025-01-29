@@ -2,4 +2,5 @@
  :logseq-bullet-threading {:version "v1.1.4", :repo "pengx17/logseq-plugin-bullet-threading", :effect false, :theme false}
  :logseq-copy-code-plugin {:version "v.1.2.0", :repo "vyleung/logseq-copy-code-plugin", :effect true, :theme false}
  :logseq-mermaid-plugin {:version "v2.0.3", :repo "benjypng/logseq-mermaid-plugin", :effect true, :theme false}
- :logseq-todo-master {:version "v1.10.3", :repo "pengx17/logseq-plugin-todo-master", :effect false, :theme false}}
+ :logseq-todo-master {:version "v1.10.3", :repo "pengx17/logseq-plugin-todo-master", :effect false, :theme false}
+ :logseq-plugin-task-check-date {:version "2.1.0", :repo "DimitryDushkin/logseq-plugin-task-check-date", :effect false, :theme false}}
