@@ -9,4 +9,54 @@
 ;;   {:shortcuts {:ui/toggle-theme "t z"
 ;;                :ui/toggle-brackets "t b"}}
 
-{}
+{
+ :feature/disable-scheduled-and-deadline-query? true
+
+ :default-queries
+ {:journals
+  [
+   ; [{:title "🔨 NOW"
+   ;   :query [:find (pull ?h [*])
+   ;           :in $ ?start ?today
+   ;           :where
+   ;           [?h :block/marker ?marker]
+   ;           [(contains? #{"NOW" "DOING"} ?marker)]
+   ;           [?h :block/page ?p]
+   ;           [?p :block/journal? true]
+   ;           [?p :block/journal-day ?d]
+   ;           [(>= ?d ?start)]
+   ;           [(<= ?d ?today)]]
+   ;   :inputs [:14d :today]
+   ;   :result-transform (fn [result]
+   ;                       (sort-by (fn [h]
+   ;                                  (get h :block/priority "Z")) result))
+   ;   :group-by-page? false
+   ;   :collapsed? false}
+   ;  {:title "📅 NEXT"
+   ;   :query [:find (pull ?h [*])
+   ;           :in $ ?start ?next
+   ;           :where
+   ;           [?h :block/marker ?marker]
+   ;           [(contains? #{"NOW" "LATER" "TODO"} ?marker)]
+   ;           [?h :block/page ?p]
+   ;           [?p :block/journal? true]
+   ;           [?p :block/journal-day ?d]
+   ;           [(> ?d ?start)]
+   ;           [(< ?d ?next)]]
+   ;   :inputs [:today :7d-after]
+   ;   :group-by-page? false
+   ;   :collapsed? false}
+   {:title "📅 Weekly TODO"
+    :query [
+            :find (pull ?b [*])
+            :in $ ?beginningOfWeek ?endOfWeek
+            :where
+            (or
+              [?b :block/scheduled _]
+              [?b :block/marker "NOW"])
+            ]
+    :inputs [:beginning-of-week :end-of-week]
+    :collapsed? false}
+   ]
+  }
+ }
