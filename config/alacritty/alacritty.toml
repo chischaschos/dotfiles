@@ -22,3 +22,6 @@ style = "Retina"
 
 [general]
 import = ["~/.config/alacritty/colors.toml"]
+
+[selection]
+save_to_clipboard = true
