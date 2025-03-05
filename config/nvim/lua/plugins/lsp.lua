@@ -10,12 +10,12 @@ local servers = {
   'html',
   'jsonls',
   'pyright',
-  'ruby-lsp',
+  'ruby_lsp',
   'rust',
   'solargraph',
   'sorbet',
   'sqlls',
-  'tsserver',
+  'ts_ls',
 }
 
 require('nvim-lsp-installer').setup({
@@ -72,6 +72,13 @@ for _, server in ipairs(servers) do
     merged_opts = {
       filetypes = { 'bzl', 'star' },
       root_dir = lspconfig.util.root_pattern(".git")
+    }
+  end
+
+  if server == 'ruby-lsp' then
+    merged_opts = {
+      formatter = 'standard',
+      linters = { 'standard' },
     }
   end
 
