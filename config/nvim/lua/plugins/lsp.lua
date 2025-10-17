@@ -1,3 +1,7 @@
+require("mason").setup({ PATH = "append"})
+require("mason-lspconfig").setup()
+
+
 local map = vim.keymap.set
 local api = vim.api
 
@@ -11,17 +15,17 @@ local servers = {
   'jsonls',
   'pyright',
   'ruby_lsp',
-  'rust',
+  -- 'rust',
   'solargraph',
   'sorbet',
   'sqlls',
   'ts_ls',
 }
 
-require('nvim-lsp-installer').setup({
-  ensure_installed = servers,
-  automatic_install = true
-})
+-- require('nvim-lsp-installer').setup({
+--   ensure_installed = servers,
+--   automatic_install = true
+-- })
 
 vim.opt_global.completeopt = { "menuone", "noinsert", "noselect" }
 
@@ -194,5 +198,3 @@ end
 vim.api.nvim_exec([[
   autocmd BufRead,BufNewFile *.star set filetype=bzl
 ]], false)
-
-lspconfig.harper_ls.setup(opts)

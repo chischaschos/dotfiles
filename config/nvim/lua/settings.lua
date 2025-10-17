@@ -45,4 +45,20 @@ vim.cmd [[
   " Remove trailing spaces when writing file
   autocmd BufWritePre * :%s/\s\+$//e
   autocmd BufRead *.rs :setlocal tags=./rusty-tags.vi;/
+  autocmd BufWritePost *.rs :silent! exec "!rusty-tags vi --quiet --start-dir=" . expand('%:p:h') . "&" | redraw!
 ]]
+
+-- In your init.lua or a file sourced by it
+vim.g.rustaceanvim = {
+  server = {
+    settings = {
+      ['rust-analyzer'] = {
+        cargo = {
+          targetDir = '/tmp/rust-analyzer-target',
+        },
+      },
+    },
+  },
+}
+
+

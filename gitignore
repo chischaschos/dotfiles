@@ -13,3 +13,4 @@ node_modules
 .metals
 *.vi
 .rgignore
+.rust-rover

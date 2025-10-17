@@ -12,25 +12,30 @@ Plug 'vim-scripts/gitignore'
 Plug 'yssl/QFEnter'
 Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'})
 Plug 'github/copilot.vim'
+Plug 'CopilotC-Nvim/CopilotChat.nvim'
 Plug 'preservim/tagbar'
 Plug 'kevinhwang91/nvim-ufo' --folding
 Plug 'kevinhwang91/promise-async' -- required by ufo
+Plug 'OXY2DEV/markview.nvim'
+Plug 'hashivim/vim-terraform'
 
 -- LSP
-Plug 'antoinemadec/FixCursorHold.nvim'
+Plug 'mason-org/mason.nvim'
+Plug 'neovim/nvim-lspconfig'
+Plug 'mason-org/mason-lspconfig.nvim'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/nvim-cmp'
-Plug 'ldelossa/nvim-dap-projects'
-Plug 'mfussenegger/nvim-dap'
-Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-neotest/neotest'
 Plug 'nvim-neotest/nvim-nio'
+
+-- DAP
+Plug 'ldelossa/nvim-dap-projects'
+Plug 'mfussenegger/nvim-dap'
 Plug 'rcarriga/nvim-dap-ui'
-Plug 'williamboman/nvim-lsp-installer'
 
 -- For vsnip
 Plug 'hrsh7th/cmp-vsnip'
@@ -64,8 +69,8 @@ Plug 'mrcjkb/rustaceanvim'
 Plug 'scalameta/nvim-metals'
 
 -- writing
-Plug 'vimwiki/vimwiki'
-Plug 'michal-h21/vim-zettel'
+-- Plug 'vimwiki/vimwiki'
+-- Plug 'michal-h21/vim-zettel'
 
 -- lua support
 Plug 'nvim-lua/plenary.nvim'
@@ -80,7 +85,5 @@ Plug 'junegunn/fzf.vim'
 -- status line
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
-
-Plug 'hashivim/vim-terraform'
 
 vim.call('plug#end')

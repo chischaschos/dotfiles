@@ -51,3 +51,9 @@ $battery\
 $time\
 $status\
 $character"""
+
+
+# [time]
+# disabled = false
+# format = '🕙[\[ $time \]]($style) '
+# time_format = '%T'

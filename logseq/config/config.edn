@@ -49,14 +49,15 @@
    {:title "📅 Weekly TODO"
     :query [
             :find (pull ?b [*])
-            :in $ ?beginningOfWeek ?endOfWeek
             :where
             (or
               [?b :block/scheduled _]
               [?b :block/marker "NOW"])
-            ]
-    :inputs [:beginning-of-week :end-of-week]
-    :collapsed? false}
+            (not [?b :block/marker "DONE"])
+           ]
+    :collapsed? false
+    :result-transform (fn [r] (map (fn [m] (assoc m :block/collapsed? true)) r))
+    }
    ]
   }
  }
