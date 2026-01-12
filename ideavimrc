@@ -1,3 +1,5 @@
+Plug "tpope/vim-surround"
+
 let mapleader = ","
 " Map 'jk' to escape in insert mode
 inoremap jk <Esc>
