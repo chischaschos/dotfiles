@@ -1,6 +1,5 @@
 require('settings')
 require('plugins')
--- require('theme')
 require('keymaps')
 
 local function source_files_from_dir(directory)

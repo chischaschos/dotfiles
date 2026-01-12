@@ -18,6 +18,9 @@ Plug 'kevinhwang91/nvim-ufo' --folding
 Plug 'kevinhwang91/promise-async' -- required by ufo
 Plug 'OXY2DEV/markview.nvim'
 Plug 'hashivim/vim-terraform'
+Plug 'rcarriga/nvim-notify'
+Plug 'MunifTanjim/nui.nvim'
+Plug 'folke/noice.nvim'
 
 -- LSP
 Plug 'mason-org/mason.nvim'
@@ -31,6 +34,7 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-neotest/neotest'
 Plug 'nvim-neotest/nvim-nio'
+Plug 'rachartier/tiny-inline-diagnostic.nvim'
 
 -- DAP
 Plug 'ldelossa/nvim-dap-projects'
@@ -65,7 +69,6 @@ Plug 'tinted-theming/base16-vim'
 
 -- Other langs support
 Plug 'fatih/vim-go'
-Plug 'mrcjkb/rustaceanvim'
 Plug 'scalameta/nvim-metals'
 
 -- writing

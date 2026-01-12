@@ -57,3 +57,8 @@ $character"""
 # disabled = false
 # format = '🕙[\[ $time \]]($style) '
 # time_format = '%T'
+
+# [cmd_duration]
+# min_time = 500
+# show_milliseconds = true
+# format = 'underwent [$duration](bold yellow)'
