@@ -1,0 +1,384 @@
+#!/bin/bash
+set -euo pipefail
+
+# Colors for better readability
+BOLD='\033[1m'
+BLUE='\033[0;34m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+CYAN='\033[0;36m'
+RED='\033[0;31m'
+RESET='\033[0m'
+
+# Parse command line arguments
+REPO_FILTER=""
+SHOW_DETAILS=false
+MERGED_CLOSED_ONLY=false
+MARK_READ=false
+REVIEW_REQUESTED_ONLY=false
+SUBSCRIBED_ONLY=false
+
+# Parse flags and arguments
+SHOW_HELP=false
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --help|-h)
+            SHOW_HELP=true
+            shift
+            ;;
+        --merged-closed|-m)
+            MERGED_CLOSED_ONLY=true
+            shift
+            ;;
+        --mark-read|-r)
+            MARK_READ=true
+            shift
+            ;;
+        --review-requested|--review)
+            REVIEW_REQUESTED_ONLY=true
+            shift
+            ;;
+        --subscribed)
+            SUBSCRIBED_ONLY=true
+            shift
+            ;;
+        *)
+            REPO_FILTER="$1"
+            shift
+            ;;
+    esac
+done
+
+# Show help if requested
+if [ "$SHOW_HELP" = true ]; then
+    echo -e "${BOLD}📬 GitHub Notifications Manager${RESET}\n"
+    echo -e "${BOLD}Symbol Legend:${RESET}"
+    echo -e "  ${BOLD}Type:${RESET} 🔀=PR  📋=Issue  🚀=Release  💬=Discussion  📝=Commit"
+    echo -e "  ${BOLD}Reason:${RESET} 👀=Review  🔔=Subscribed  💬=Mention  ✋=Assigned  💭=Comment  ✍️=Author"
+    echo ""
+    echo -e "${BOLD}Actions:${RESET}"
+    echo "  • Mark all as read: gh api /notifications -X PUT"
+    echo "  • Open in browser: open https://github.com/notifications"
+    echo ""
+    echo -e "${BOLD}Usage:${RESET}"
+    echo "  • Summary (counts only): $0"
+    echo "  • Details for all repos: $0 '.*'"
+    echo "  • Filter by repo name: $0 'repo2'"
+    echo "  • Filter by org: $0 'org/.*'"
+    echo "  • Multiple repos: $0 'repo1|repo2'"
+    echo ""
+    echo "  • Merged/closed only (summary): $0 --merged-closed"
+    echo "  • Merged/closed only (details): $0 --merged-closed '.*'"
+    echo "  • Merged/closed for specific repo: $0 --merged-closed 'repo1'"
+    echo ""
+    echo "  • Review requests only (summary): $0 --review-requested"
+    echo "  • Review requests only (details): $0 --review-requested '.*'"
+    echo "  • Review requests for specific repo: $0 --review-requested 'repo1'"
+    echo ""
+    echo "  • Subscribed only (summary): $0 --subscribed"
+    echo "  • Subscribed only (details): $0 --subscribed '.*'"
+    echo "  • Subscribed for specific repo: $0 --subscribed 'repo1'"
+    echo ""
+    echo "  • Mark all matching as read: $0 --mark-read"
+    echo "  • Mark all for specific repo: $0 --mark-read 'repo1'"
+    echo "  • Mark merged/closed as read: $0 --merged-closed --mark-read"
+    echo "  • Mark review requests as read: $0 --review-requested --mark-read"
+    echo "  • Mark subscribed as read: $0 --subscribed --mark-read"
+    exit 0
+fi
+
+# If filter is provided, show details
+if [ -n "$REPO_FILTER" ]; then
+    SHOW_DETAILS=true
+else
+    REPO_FILTER=".*"
+fi
+
+echo -e "${BOLD}📬 GitHub Notifications${RESET}"
+if [ "$SHOW_DETAILS" = true ]; then
+    echo -e "Filtering repos: ${CYAN}$REPO_FILTER${RESET}"
+    echo -e "Mode: ${GREEN}Detailed view${RESET}"
+else
+    echo -e "Mode: ${YELLOW}Summary view${RESET} (pass a filter to see details)"
+fi
+if [ "$MERGED_CLOSED_ONLY" = true ]; then
+    echo -e "State filter: ${YELLOW}Merged PRs and Closed Issues only${RESET}"
+fi
+if [ "$REVIEW_REQUESTED_ONLY" = true ]; then
+    echo -e "Reason filter: ${YELLOW}Review Requested only${RESET}"
+fi
+if [ "$SUBSCRIBED_ONLY" = true ]; then
+    echo -e "Reason filter: ${YELLOW}Subscribed only${RESET}"
+fi
+if [ "$MARK_READ" = true ]; then
+    echo -e "Action: ${GREEN}Will mark notifications as read${RESET}"
+fi
+echo ""
+
+# Fetch all unread notifications
+notifications=$(gh api /notifications --paginate)
+
+# Check if there are any notifications
+count=$(echo "$notifications" | jq length)
+if [ "$count" -eq 0 ]; then
+    echo "No unread notifications! 🎉"
+    exit 0
+fi
+
+# Get unique repositories and filter by regex, then sort
+repos=$(echo "$notifications" | jq -r '[.[].repository.full_name] | unique | .[]' | grep -E "$REPO_FILTER" | sort)
+
+# Count filtered notifications
+filtered_count=$(echo "$notifications" | jq -r --arg filter "$REPO_FILTER" '
+    [.[] | select(.repository.full_name | test($filter))] | length
+')
+
+if [ -z "$repos" ] || [ "$filtered_count" -eq 0 ]; then
+    echo "No notifications matching filter: $REPO_FILTER"
+    exit 0
+fi
+
+echo -e "Total unread: ${BOLD}$count${RESET} | Matching filter: ${BOLD}$filtered_count${RESET}\n"
+
+# Function to get type emoji only
+get_type_emoji() {
+    local type=$1
+    case "$type" in
+        "PullRequest") echo "🔀" ;;
+        "Issue") echo "📋" ;;
+        "Release") echo "🚀" ;;
+        "Discussion") echo "💬" ;;
+        "Commit") echo "📝" ;;
+        *) echo "📌" ;;
+    esac
+}
+
+# Function to get reason emoji only
+get_reason_emoji() {
+    local reason=$1
+    case "$reason" in
+        "review_requested") echo "👀" ;;
+        "mention") echo "💬" ;;
+        "assign") echo "✋" ;;
+        "subscribed") echo "🔔" ;;
+        "comment") echo "💭" ;;
+        "author") echo "✍️" ;;
+        *) echo "📌" ;;
+    esac
+}
+
+# Function to check if a notification is merged (PR) or closed (Issue)
+is_merged_or_closed() {
+    local repo=$1
+    local type=$2
+    local url=$3
+
+    # Extract number from URL
+    local number=$(basename "$url")
+
+    if [ "$type" = "PullRequest" ]; then
+        # Check if PR is merged using the .merged boolean field
+        local merged=$(gh api "/repos/$repo/pulls/$number" --jq '.merged' 2>/dev/null || echo "false")
+        if [ "$merged" = "true" ]; then
+            return 0  # true
+        fi
+    elif [ "$type" = "Issue" ]; then
+        # Check if issue is closed
+        local state=$(gh api "/repos/$repo/issues/$number" --jq '.state' 2>/dev/null || echo "open")
+        if [ "$state" = "closed" ]; then
+            return 0  # true
+        fi
+    fi
+
+    return 1  # false
+}
+
+# Mark notifications as read if requested
+if [ "$MARK_READ" = true ]; then
+    if [ "$MERGED_CLOSED_ONLY" = true ]; then
+        echo -e "${BOLD}Marking merged/closed notifications as read...${RESET}\n"
+    else
+        echo -e "${BOLD}Marking notifications as read...${RESET}\n"
+    fi
+
+    marked_count=0
+    failed_count=0
+
+    for repo in $repos; do
+        # Process all notifications for this repo
+        while IFS= read -r item; do
+            if [ -z "$item" ]; then continue; fi
+
+            thread_id=$(echo "$item" | jq -r '.id')
+            type=$(echo "$item" | jq -r '.subject.type')
+            title=$(echo "$item" | jq -r '.subject.title')
+            url=$(echo "$item" | jq -r '.subject.url')
+            reason=$(echo "$item" | jq -r '.reason')
+
+            # Check if we should mark this notification
+            should_mark=true
+            if [ "$MERGED_CLOSED_ONLY" = true ]; then
+                # Only mark if merged/closed
+                if ! is_merged_or_closed "$repo" "$type" "$url"; then
+                    should_mark=false
+                fi
+            fi
+            if [ "$REVIEW_REQUESTED_ONLY" = true ]; then
+                # Only mark if review requested
+                if [ "$reason" != "review_requested" ]; then
+                    should_mark=false
+                fi
+            fi
+            if [ "$SUBSCRIBED_ONLY" = true ]; then
+                # Only mark if subscribed
+                if [ "$reason" != "subscribed" ]; then
+                    should_mark=false
+                fi
+            fi
+
+            if [ "$should_mark" = true ]; then
+                # Convert API URL to web URL
+                web_url=""
+                if [[ "$url" == *"/pulls/"* ]]; then
+                    web_url=$(echo "$url" | sed 's|api.github.com/repos|github.com|' | sed 's|/pulls/|/pull/|')
+                elif [[ "$url" == *"/issues/"* ]]; then
+                    web_url=$(echo "$url" | sed 's|api.github.com/repos|github.com|' | sed 's|/issues/|/issues/|')
+                else
+                    web_url="https://github.com/${repo}"
+                fi
+
+                # Mark as read
+                if gh api -X PATCH "/notifications/threads/$thread_id" 2>/dev/null; then
+                    marked_count=$((marked_count + 1))
+                    echo -e "  ${GREEN}✓${RESET} Marked as read: ${BLUE}$(basename "$repo")${RESET} | $(get_type_emoji "$type") | ${YELLOW}${title}${RESET} | ${CYAN}${web_url}${RESET}"
+                else
+                    failed_count=$((failed_count + 1))
+                    echo -e "  ${RED}✗${RESET} Failed to mark: ${title}"
+                fi
+            fi
+        done < <(echo "$notifications" | jq -c --arg repo "$repo" '.[] | select(.repository.full_name == $repo)')
+    done
+
+    echo ""
+    echo -e "${BOLD}${GREEN}Marked $marked_count notification$([ "$marked_count" -ne 1 ] && echo "s" || echo "") as read${RESET}"
+    if [ "$failed_count" -gt 0 ]; then
+        echo -e "${BOLD}${RED}Failed to mark $failed_count notification$([ "$failed_count" -ne 1 ] && echo "s" || echo "")${RESET}"
+    fi
+    echo ""
+    exit 0
+fi
+
+# Display notifications in compact format
+# Format: repo_short | type | reason | title | link
+
+if [ "$SHOW_DETAILS" = false ]; then
+    # Summary mode - show grouped counts with consistent formatting
+    echo "$repos" | while IFS= read -r repo; do
+        repo_short=$(basename "$repo")
+
+        # Get unique types for this repo, sorted
+        types=$(echo "$notifications" | jq -r --arg repo "$repo" '
+            [.[] | select(.repository.full_name == $repo) | .subject.type] | unique | sort | .[]
+        ')
+
+        echo "$types" | while IFS= read -r type; do
+            # Count notifications, applying merged/closed filter if needed
+            type_count=0
+
+            while IFS= read -r item; do
+                if [ -z "$item" ]; then continue; fi
+
+                url=$(echo "$item" | jq -r '.subject.url')
+                reason=$(echo "$item" | jq -r '.reason')
+
+                include=true
+                if [ "$MERGED_CLOSED_ONLY" = true ]; then
+                    if is_merged_or_closed "$repo" "$type" "$url"; then
+                        include=true
+                    else
+                        include=false
+                    fi
+                fi
+                if [ "$REVIEW_REQUESTED_ONLY" = true ]; then
+                    if [ "$reason" != "review_requested" ]; then
+                        include=false
+                    fi
+                fi
+                if [ "$SUBSCRIBED_ONLY" = true ]; then
+                    if [ "$reason" != "subscribed" ]; then
+                        include=false
+                    fi
+                fi
+
+                if [ "$include" = true ]; then
+                    type_count=$((type_count + 1))
+                fi
+            done < <(echo "$notifications" | jq -c --arg repo "$repo" --arg type "$type" '.[] | select(.repository.full_name == $repo and .subject.type == $type)')
+
+            if [ "$type_count" -gt 0 ]; then
+                type_emoji=$(get_type_emoji "$type")
+                # Format similar to detail view: repo | emoji | count
+                echo -e "${BLUE}${repo_short}${RESET} | ${type_emoji} | ${YELLOW}${type_count} notification$([ "$type_count" -ne 1 ] && echo "s" || echo "")${RESET}"
+            fi
+        done
+    done
+    echo ""
+else
+    # Detail mode - show one line per notification, sorted by repo, type, then title
+    echo "$repos" | while IFS= read -r repo; do
+        repo_short=$(basename "$repo")
+
+        # Process all notifications for this repo, sorted by type then title
+        while IFS= read -r item; do
+            if [ -z "$item" ]; then continue; fi
+
+            type=$(echo "$item" | jq -r '.subject.type')
+            title=$(echo "$item" | jq -r '.subject.title')
+            url=$(echo "$item" | jq -r '.subject.url')
+            reason=$(echo "$item" | jq -r '.reason')
+
+            # Apply filters if needed
+            include=true
+            if [ "$MERGED_CLOSED_ONLY" = true ]; then
+                if is_merged_or_closed "$repo" "$type" "$url"; then
+                    include=true
+                else
+                    include=false
+                fi
+            fi
+            if [ "$REVIEW_REQUESTED_ONLY" = true ]; then
+                if [ "$reason" != "review_requested" ]; then
+                    include=false
+                fi
+            fi
+            if [ "$SUBSCRIBED_ONLY" = true ]; then
+                if [ "$reason" != "subscribed" ]; then
+                    include=false
+                fi
+            fi
+
+            if [ "$include" = true ]; then
+                # Convert API URL to web URL
+                web_url=""
+                if [[ "$url" == *"/pulls/"* ]]; then
+                    web_url=$(echo "$url" | sed 's|api.github.com/repos|github.com|' | sed 's|/pulls/|/pull/|')
+                elif [[ "$url" == *"/issues/"* ]]; then
+                    web_url=$(echo "$url" | sed 's|api.github.com/repos|github.com|' | sed 's|/issues/|/issues/|')
+                else
+                    web_url="https://github.com/${repo}"
+                fi
+
+                type_emoji=$(get_type_emoji "$type")
+                reason_emoji=$(get_reason_emoji "$reason")
+
+                # Output in compact format: repo | type | reason | title | link
+                echo -e "${BLUE}${repo_short}${RESET} | ${type_emoji} | ${reason_emoji} | ${YELLOW}${title}${RESET} | ${CYAN}${web_url}${RESET}"
+            fi
+        done < <(echo "$notifications" | jq -c --arg repo "$repo" '
+            [.[] | select(.repository.full_name == $repo)] |
+            sort_by(.subject.type, .subject.title) |
+            .[]
+        ')
+
+    done
+fi

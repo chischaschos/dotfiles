@@ -1,7 +1,11 @@
 bindkey -e
 
-autoload -Uz compinit
-compinit
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+
+  autoload -Uz compinit
+  compinit
+fi
 
 unsetopt correct
 setopt extended_glob
@@ -35,20 +39,20 @@ source ~/.aliases
 
 [[ -x /opt/homebrew/bin/brew ]] && eval $(/opt/homebrew/bin/brew shellenv)
 
-# >>> fzf
-export FZF_DEFAULT_COMMAND='fd --type f'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-
-# Set up fzf key bindings and fuzzy completion
-eval "$(fzf --zsh)"
-
-export FZF_DEFAULT_COMMAND='fd --type f'
-# <<< fzf
-
 # load dev, but only if present and the shell is interactive
 if [[ -f /opt/dev/dev.sh ]] && [[ $- == *i* ]]; then
   source /opt/dev/dev.sh
 fi
+
+# >>> fzf
+export FZF_DEFAULT_COMMAND='fd --type f'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+# # Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
+
+export FZF_DEFAULT_COMMAND='fd --type f'
+# <<< fzf
 
 eval "$(starship init zsh)"
 eval "$(direnv hook zsh)"
@@ -57,6 +61,6 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 nvm use default --silent
 
-[ -f ~/.local.zshrc ] && source ~/.local.zshrc
-
 [[ -f /opt/dev/sh/chruby/chruby.sh ]] && { type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; } }
+
+[ -f ~/.local.zshrc ] && source ~/.local.zshrc
