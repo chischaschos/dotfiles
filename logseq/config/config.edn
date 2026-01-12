@@ -56,7 +56,11 @@
             (not [?b :block/marker "DONE"])
            ]
     :collapsed? false
-    :result-transform (fn [r] (map (fn [m] (assoc m :block/collapsed? true)) r))
+    :breadcrumb-show? false
+    :result-transform (fn [r]
+                        (->> r
+                             (sort-by (fn [m] (get m :block/scheduled 0)) >)
+                             (map (fn [m] (assoc m :block/collapsed? true)))))
     }
    ]
   }
