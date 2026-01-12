@@ -37,10 +37,6 @@
   diffFilter = delta --color-only
 [pull]
   rebase = false
-[include]
-  path = ~/.local.gitconfig
-[core]
-  pager = delta
 [delta]
   side-by-side = false
   plus-style = "syntax #012800"
@@ -49,6 +45,7 @@
   features = side-by-side line-numbers decorations
   whitespace-error-style = 22 reverse
   wrap-max-lines=4
+  theme = GitHub
 [delta "decorations"]
   commit-decoration-style = bold yellow box ul
   file-style = bold yellow ul
@@ -58,4 +55,11 @@
 [rebase]
 	autosquash = true
 [include]
+  path = ~/.local.gitconfig
+[include]
 	path = ~/.local/share/tinted-theming/tinty/tinted-delta-configs-file.gitconfig
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
