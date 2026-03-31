@@ -1,16 +1,31 @@
-vim.lsp.config('rust_analyzer', {
-  settings = {
+local rust_test_cfg = true
+
+local function rust_analyzer_settings(set_test)
+  return {
     ['rust-analyzer'] = {
       cargo = {
         targetDir = true,
+        features = {},
+      },
+      cfg = {
+        setTest = set_test,
       },
       diagnostics = {
-        enable = true;
-      }
+        enable = true,
+      },
     }
   }
-})
+end
+
+vim.lsp.config('rust_analyzer', { settings = rust_analyzer_settings(rust_test_cfg) })
 vim.lsp.enable('rust_analyzer')
+
+vim.keymap.set('n', '<leader>rt', function()
+  rust_test_cfg = not rust_test_cfg
+  vim.lsp.config('rust_analyzer', { settings = rust_analyzer_settings(rust_test_cfg) })
+  vim.cmd('LspRestart rust_analyzer')
+  vim.notify('rust-analyzer cfg(test) = ' .. tostring(rust_test_cfg), vim.log.levels.INFO)
+end, { desc = 'Toggle rust-analyzer cfg(test)' })
 
 require("mason").setup({ PATH = "append"})
 require("mason-lspconfig").setup()

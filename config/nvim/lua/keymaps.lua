@@ -18,7 +18,7 @@ vim.keymap.set('n', '<leader>d', '"*d', opts)
 vim.keymap.set('v', '<leader>d', '"*d', opts)
 vim.keymap.set('n', '<leader>p', '"*p', opts)
 vim.keymap.set('v', '<leader>p', '"*p', opts)
-
+vim.keymap.set('n', '<leader>cfn', ':let @+=expand("%").":". line(".")<CR>', opts)
 
 -- Moving around, tabs, windows and buffers
 -- nnoremap j gj
@@ -37,3 +37,4 @@ vim.keymap.set('n', '<c-l>', '<c-w>l', opts)
 
 vim.cmd('iab <expr> tts strftime("%a %e, %b %Y")')
 vim.cmd('iab <expr> fts strftime("%H:%M:%S %Z")')
+

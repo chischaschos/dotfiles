@@ -6,13 +6,11 @@ vim.call('plug#begin', '~/.vim/bundle')
 Plug 'editorconfig/editorconfig-vim'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'neomake/neomake'
-Plug 'pechorin/any-jump.vim'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-scripts/gitignore'
 Plug 'yssl/QFEnter'
 Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'})
 Plug 'github/copilot.vim'
-Plug 'CopilotC-Nvim/CopilotChat.nvim'
 Plug 'preservim/tagbar'
 Plug 'kevinhwang91/nvim-ufo' --folding
 Plug 'kevinhwang91/promise-async' -- required by ufo
