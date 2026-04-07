@@ -1,3 +1,7 @@
+vim.api.nvim_create_user_command('LspLog', function()
+  vim.cmd.edit(vim.lsp.log.get_filename())
+end, { desc = 'Open LSP log file' })
+
 local rust_test_cfg = true
 
 local function rust_analyzer_settings(set_test)

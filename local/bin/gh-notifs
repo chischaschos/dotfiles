@@ -3,6 +3,9 @@ set -euo pipefail
 
 # Colors for better readability
 BOLD='\033[1m'
+# Cache directory for PR/issue states (cleaned up on exit)
+CACHE_DIR=$(mktemp -d)
+trap 'rm -rf "$CACHE_DIR"' EXIT
 BLUE='\033[0;34m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
@@ -15,8 +18,10 @@ REPO_FILTER=""
 SHOW_DETAILS=false
 MERGED_CLOSED_ONLY=false
 MARK_READ=false
+MARK_DONE=false
 REVIEW_REQUESTED_ONLY=false
 SUBSCRIBED_ONLY=false
+ISSUES_ONLY=false
 
 # Parse flags and arguments
 SHOW_HELP=false
@@ -34,12 +39,20 @@ while [[ $# -gt 0 ]]; do
             MARK_READ=true
             shift
             ;;
+        --mark-done|-d)
+            MARK_DONE=true
+            shift
+            ;;
         --review-requested|--review)
             REVIEW_REQUESTED_ONLY=true
             shift
             ;;
         --subscribed)
             SUBSCRIBED_ONLY=true
+            shift
+            ;;
+        --issues|-i)
+            ISSUES_ONLY=true
             shift
             ;;
         *)
@@ -79,11 +92,19 @@ if [ "$SHOW_HELP" = true ]; then
     echo "  • Subscribed only (details): $0 --subscribed '.*'"
     echo "  • Subscribed for specific repo: $0 --subscribed 'repo1'"
     echo ""
+    echo "  • Issues only (summary): $0 --issues"
+    echo "  • Issues only (details): $0 --issues '.*'"
+    echo "  • Issues for specific repo: $0 --issues 'repo1'"
+    echo ""
     echo "  • Mark all matching as read: $0 --mark-read"
     echo "  • Mark all for specific repo: $0 --mark-read 'repo1'"
     echo "  • Mark merged/closed as read: $0 --merged-closed --mark-read"
     echo "  • Mark review requests as read: $0 --review-requested --mark-read"
     echo "  • Mark subscribed as read: $0 --subscribed --mark-read"
+    echo ""
+    echo "  • Mark as done (archived, disappears from All tab): $0 --mark-done"
+    echo "  • Mark merged/closed as done: $0 --merged-closed --mark-done"
+    echo "  • Mark review requests as done: $0 --review-requested --mark-done"
     exit 0
 fi
 
@@ -110,8 +131,14 @@ fi
 if [ "$SUBSCRIBED_ONLY" = true ]; then
     echo -e "Reason filter: ${YELLOW}Subscribed only${RESET}"
 fi
+if [ "$ISSUES_ONLY" = true ]; then
+    echo -e "Type filter: ${YELLOW}Issues only${RESET}"
+fi
 if [ "$MARK_READ" = true ]; then
     echo -e "Action: ${GREEN}Will mark notifications as read${RESET}"
+fi
+if [ "$MARK_DONE" = true ]; then
+    echo -e "Action: ${GREEN}Will mark notifications as done (archived)${RESET}"
 fi
 echo ""
 
@@ -167,38 +194,70 @@ get_reason_emoji() {
     esac
 }
 
-# Function to check if a notification is merged (PR) or closed (Issue)
-is_merged_or_closed() {
-    local repo=$1
-    local type=$2
-    local url=$3
-
-    # Extract number from URL
-    local number=$(basename "$url")
-
-    if [ "$type" = "PullRequest" ]; then
-        # Check if PR is merged using the .merged boolean field
-        local merged=$(gh api "/repos/$repo/pulls/$number" --jq '.merged' 2>/dev/null || echo "false")
-        if [ "$merged" = "true" ]; then
-            return 0  # true
-        fi
-    elif [ "$type" = "Issue" ]; then
-        # Check if issue is closed
-        local state=$(gh api "/repos/$repo/issues/$number" --jq '.state' 2>/dev/null || echo "open")
-        if [ "$state" = "closed" ]; then
-            return 0  # true
-        fi
-    fi
-
-    return 1  # false
+# Cache key: URL with special chars replaced
+url_to_key() {
+    printf '%s' "$1" | tr '/:.?=&' '_______'
 }
 
-# Mark notifications as read if requested
-if [ "$MARK_READ" = true ]; then
-    if [ "$MERGED_CLOSED_ONLY" = true ]; then
-        echo -e "${BOLD}Marking merged/closed notifications as read...${RESET}\n"
+# Pre-fetch all PR/issue states in parallel (call before loops when MERGED_CLOSED_ONLY=true)
+prefetch_states() {
+    local job_count=0
+    local max_jobs=20
+
+    echo -e "  ${BOLD}Pre-fetching states in parallel...${RESET}" >&2
+
+    while IFS= read -r url; do
+        local key="$CACHE_DIR/$(url_to_key "$url")"
+        if [[ ! -f "$key" ]]; then
+            (
+                _state=$(gh api "$url" --jq '.state' 2>/dev/null || echo "open")
+                printf '%s' "$_state" > "$key"
+            ) &
+            job_count=$((job_count + 1))
+            if (( job_count % max_jobs == 0 )); then
+                wait || true
+                job_count=0
+            fi
+        fi
+    done < <(echo "$notifications" | jq -r --arg filter "$REPO_FILTER" '
+        .[] | select(.repository.full_name | test($filter)) |
+        select(.subject.type == "PullRequest" or .subject.type == "Issue") |
+        .subject.url
+    ' | sort -u)
+
+    wait || true
+}
+
+# Check if a notification's subject URL is for a closed/merged item (uses cache)
+is_merged_or_closed() {
+    local url=$1
+    local key="$CACHE_DIR/$(url_to_key "$url")"
+    local state
+
+    if [[ -f "$key" ]]; then
+        state=$(cat "$key")
     else
-        echo -e "${BOLD}Marking notifications as read...${RESET}\n"
+        # Fallback: fetch on demand and cache
+        state=$(gh api "$url" --jq '.state' 2>/dev/null || echo "open")
+        printf '%s' "$state" > "$key"
+    fi
+
+    [[ "$state" == "closed" ]]
+}
+
+# Pre-fetch states upfront if needed (avoids sequential API calls in the loops)
+if [ "$MERGED_CLOSED_ONLY" = true ]; then
+    prefetch_states
+fi
+
+# Mark notifications as read if requested
+if [ "$MARK_READ" = true ] || [ "$MARK_DONE" = true ]; then
+    _action_label="read"
+    [ "$MARK_DONE" = true ] && _action_label="done"
+    if [ "$MERGED_CLOSED_ONLY" = true ]; then
+        echo -e "${BOLD}Marking merged/closed notifications as ${_action_label}...${RESET}\n"
+    else
+        echo -e "${BOLD}Marking notifications as ${_action_label}...${RESET}\n"
     fi
 
     marked_count=0
@@ -210,6 +269,7 @@ if [ "$MARK_READ" = true ]; then
             if [ -z "$item" ]; then continue; fi
 
             thread_id=$(echo "$item" | jq -r '.id')
+            node_id=$(echo "$item" | jq -r '.node_id // empty')
             type=$(echo "$item" | jq -r '.subject.type')
             title=$(echo "$item" | jq -r '.subject.title')
             url=$(echo "$item" | jq -r '.subject.url')
@@ -219,7 +279,7 @@ if [ "$MARK_READ" = true ]; then
             should_mark=true
             if [ "$MERGED_CLOSED_ONLY" = true ]; then
                 # Only mark if merged/closed
-                if ! is_merged_or_closed "$repo" "$type" "$url"; then
+                if ! is_merged_or_closed "$url"; then
                     should_mark=false
                 fi
             fi
@@ -235,6 +295,11 @@ if [ "$MARK_READ" = true ]; then
                     should_mark=false
                 fi
             fi
+            if [ "$ISSUES_ONLY" = true ]; then
+                if [ "$type" != "Issue" ]; then
+                    should_mark=false
+                fi
+            fi
 
             if [ "$should_mark" = true ]; then
                 # Convert API URL to web URL
@@ -247,20 +312,33 @@ if [ "$MARK_READ" = true ]; then
                     web_url="https://github.com/${repo}"
                 fi
 
-                # Mark as read
-                if gh api -X PATCH "/notifications/threads/$thread_id" 2>/dev/null; then
-                    marked_count=$((marked_count + 1))
-                    echo -e "  ${GREEN}✓${RESET} Marked as read: ${BLUE}$(basename "$repo")${RESET} | $(get_type_emoji "$type") | ${YELLOW}${title}${RESET} | ${CYAN}${web_url}${RESET}"
-                else
-                    failed_count=$((failed_count + 1))
-                    echo -e "  ${RED}✗${RESET} Failed to mark: ${title}"
+                # Mark as done or read
+                _success=false
+                if [ "$MARK_DONE" = true ] && [ -n "$node_id" ]; then
+                    _result=$(gh api graphql -f query="mutation { markNotificationsAsDone(input: {ids: [\"$node_id\"]}) { success } }" 2>/dev/null || echo "")
+                    if echo "$_result" | jq -e '.data.markNotificationsAsDone.success == true' >/dev/null 2>&1; then
+                        _success=true
+                        marked_count=$((marked_count + 1))
+                        echo -e "  ${GREEN}✓${RESET} Marked as done: ${BLUE}$(basename "$repo")${RESET} | $(get_type_emoji "$type") | ${YELLOW}${title}${RESET} | ${CYAN}${web_url}${RESET}"
+                    fi
+                fi
+                if [ "$_success" = false ]; then
+                    if gh api -X PATCH "/notifications/threads/$thread_id" 2>/dev/null; then
+                        marked_count=$((marked_count + 1))
+                        _label="read"
+                        [ "$MARK_DONE" = true ] && _label="read (done unavailable)"
+                        echo -e "  ${GREEN}✓${RESET} Marked as ${_label}: ${BLUE}$(basename "$repo")${RESET} | $(get_type_emoji "$type") | ${YELLOW}${title}${RESET} | ${CYAN}${web_url}${RESET}"
+                    else
+                        failed_count=$((failed_count + 1))
+                        echo -e "  ${RED}✗${RESET} Failed to mark: ${title}"
+                    fi
                 fi
             fi
         done < <(echo "$notifications" | jq -c --arg repo "$repo" '.[] | select(.repository.full_name == $repo)')
     done
 
     echo ""
-    echo -e "${BOLD}${GREEN}Marked $marked_count notification$([ "$marked_count" -ne 1 ] && echo "s" || echo "") as read${RESET}"
+    echo -e "${BOLD}${GREEN}Marked $marked_count notification$([ "$marked_count" -ne 1 ] && echo "s" || echo "") as ${_action_label}${RESET}"
     if [ "$failed_count" -gt 0 ]; then
         echo -e "${BOLD}${RED}Failed to mark $failed_count notification$([ "$failed_count" -ne 1 ] && echo "s" || echo "")${RESET}"
     fi
@@ -293,7 +371,7 @@ if [ "$SHOW_DETAILS" = false ]; then
 
                 include=true
                 if [ "$MERGED_CLOSED_ONLY" = true ]; then
-                    if is_merged_or_closed "$repo" "$type" "$url"; then
+                    if is_merged_or_closed "$url"; then
                         include=true
                     else
                         include=false
@@ -306,6 +384,11 @@ if [ "$SHOW_DETAILS" = false ]; then
                 fi
                 if [ "$SUBSCRIBED_ONLY" = true ]; then
                     if [ "$reason" != "subscribed" ]; then
+                        include=false
+                    fi
+                fi
+                if [ "$ISSUES_ONLY" = true ]; then
+                    if [ "$type" != "Issue" ]; then
                         include=false
                     fi
                 fi
@@ -340,7 +423,7 @@ else
             # Apply filters if needed
             include=true
             if [ "$MERGED_CLOSED_ONLY" = true ]; then
-                if is_merged_or_closed "$repo" "$type" "$url"; then
+                if is_merged_or_closed "$url"; then
                     include=true
                 else
                     include=false
@@ -353,6 +436,11 @@ else
             fi
             if [ "$SUBSCRIBED_ONLY" = true ]; then
                 if [ "$reason" != "subscribed" ]; then
+                    include=false
+                fi
+            fi
+            if [ "$ISSUES_ONLY" = true ]; then
+                if [ "$type" != "Issue" ]; then
                     include=false
                 fi
             fi

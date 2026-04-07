@@ -12,6 +12,7 @@ alias preview="fzf --preview 'batcat --color \"always\" {}'"
 alias be='bundle exec'
 
 alias gst='git status'
+alias gwt='git worktree'
 
 # bare vim stuff
 alias v='nvim'
@@ -22,4 +23,6 @@ alias vvim='nvim -u ~/.dotfiles/vanilla-vim'
 alias chrome="open -a 'Google Chrome'"
 
 alias rubogit="git status --short | cut -d ' ' -f 3 | xargs bundle exec rubocop -a"
-alias myrcup="rcup -d ~/dotfiles -x Brewfile -x vanilla-vim -x README.md"
+
+# Local/private aliases
+[ -f ~/.local.aliases ] && source ~/.local.aliases

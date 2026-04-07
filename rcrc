@@ -1,0 +1,2 @@
+DOTFILES_DIRS="$HOME/dotfiles $HOME/dotfiles-private"
+EXCLUDES="Brewfile vanilla-vim README.md"
