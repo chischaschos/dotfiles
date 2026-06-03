@@ -37,6 +37,8 @@ while read -r branch; do
       # Use `git worktree remove` which cleans up both the directory and Git's internal records.
       # The --force flag is needed if there are untracked or modified files in the worktree.
       git worktree remove --force "$worktree_path"
+      # Clean up the [branch "..."] config section left behind.
+      git config --remove-section "branch.$branch" 2>/dev/null || true
       echo "    Worktree for '$branch' removed."
     else
       echo "    Skipping worktree '$branch'."
@@ -49,10 +51,45 @@ while read -r branch; do
 
     if [[ "$REPLY" =~ ^[Yy]$ ]]; then
       git branch -D "$branch"
+      # Clean up the [branch "..."] config section left behind.
+      git config --remove-section "branch.$branch" 2>/dev/null || true
       echo "    Branch '$branch' deleted."
     else
       echo "    Skipping branch '$branch'."
     fi
+  fi
+done
+
+echo "=> Cleaning up stale branch config entries..."
+
+# Build set of branches that are active worktrees (these we keep).
+typeset -A worktree_branches
+while read -r line; do
+  worktree_branches[$line]=1
+done < <(git worktree list --porcelain | awk '/^branch refs\/heads\//{sub("branch refs/heads/",""); print}')
+
+# Find [branch "..."] config sections for branches that are NOT active worktrees.
+git config --local --name-only --get-regexp '^branch\.' 2>/dev/null | \
+  sed -n 's/^branch\.\([^.]*\)\.remote$/\1/p' | \
+  sort -u | \
+while read -r branch; do
+  # Skip branches that are active worktrees.
+  if (( ${+worktree_branches[$branch]} )); then
+    continue
+  fi
+
+  echo -n "  - Stale config for '$branch' (not an active worktree). Remove branch + config? [y/N] "
+  read -q
+  echo
+
+  if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+    # Delete the local branch ref if it exists.
+    git branch -D "$branch" 2>/dev/null || true
+    # Clean up the config section (in case branch -D didn't, or ref was already gone).
+    git config --remove-section "branch.$branch" 2>/dev/null || true
+    echo "    Branch + config for '$branch' removed."
+  else
+    echo "    Skipping '$branch'."
   fi
 done
 
