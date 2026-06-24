@@ -1,6 +1,6 @@
 #####
 # Misc utils
-alias ll='eza --long --classify'
+alias ll='eza --long --classify=auto'
 alias la='eza --long --all'
 alias l='eza'
 alias bat="bat --theme='base16-256'"
